@@ -14,31 +14,66 @@ public class Player : MonoBehaviour
 
     [Header("Movement Tuning")]
     public float moveSpeed;
+    public float gravity;
 
     //components
     Rigidbody2D rb;
+    Transform tf;
+
+    //movement bools
+    int direction;
+    bool is_moving;
 
     private void Start()
     {
         //components
         rb = GetComponent<Rigidbody2D>();
+        tf = GetComponent<Transform>();
     }
 
     void Update()
     {
         //control
-        ControllerMove();
+        Controller();
+        if (is_moving) Move();
+
+        
     }
 
-    private void ControllerMove()
+    //controller
+    private void Controller()
     {
-        if (Input.GetKeyDown(left))
+        if (Input.GetKey(left))
         {
-            rb.AddForce(new Vector2(-moveSpeed, 0));
+            direction = -1;
+            is_moving = true;
+
         }
-        else if (Input.GetKeyDown(right))
+        else if (Input.GetKey(right))
         {
-            rb.AddForce(new Vector2(moveSpeed, 0));
+            direction = 1;
+            is_moving = true;
         }
+        else
+        {
+            is_moving = false;
+        }
+    }
+
+    //transform movement
+    private void Move()
+    {
+        tf.position += new Vector3(moveSpeed * direction, 0, 0);
+    }
+
+    //rigidbody movement
+    private void RBGravity()
+    {
+        rb.AddForce(new Vector2(0, -gravity));
+        print("gravity");
+    }
+    private void RBMove()
+    {
+        rb.AddForce(new Vector2(direction * moveSpeed, 0));
     }
 }
