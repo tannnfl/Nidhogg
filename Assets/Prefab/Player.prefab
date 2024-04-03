@@ -105,7 +105,7 @@ MonoBehaviour:
   down: 0
   jump: 0
   lunge: 0
-  moveSpeed: 100
+  moveSpeed: 0.02
   gravity: 10
 --- !u!50 &-6773110512016257331
 Rigidbody2D:
