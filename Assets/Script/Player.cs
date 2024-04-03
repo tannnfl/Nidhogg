@@ -35,7 +35,11 @@ public class Player : MonoBehaviour
     {
         //control
         Controller();
+
+        //move
         if (is_moving) Move();
+
+        //jump
 
         
     }
@@ -65,6 +69,11 @@ public class Player : MonoBehaviour
     {
         tf.position += new Vector3(moveSpeed * direction, 0, 0);
     }
+    private void Jump()
+    {
+        
+    }
+
 
     //rigidbody movement
     private void RBGravity()
