@@ -233,6 +233,10 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: 0.0000009536743
       objectReference: {fileID: 0}
+    - target: {fileID: 1947926479261851887, guid: 1c7257354a8124530bc3b98945578539, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2419416862562414633, guid: 1c7257354a8124530bc3b98945578539, type: 3}
       propertyPath: m_Name
       value: Ground
@@ -409,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: moveSpeed
-      value: 0.2
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 8843519180698908272, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: m_LocalPosition.x
