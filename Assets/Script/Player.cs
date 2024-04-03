@@ -74,7 +74,6 @@ public class Player : MonoBehaviour
         
     }
 
-
     //rigidbody movement
     private void RBGravity()
     {
