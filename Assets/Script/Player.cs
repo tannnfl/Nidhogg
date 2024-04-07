@@ -5,16 +5,20 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Control")]
-    public KeyCode left;
-    public KeyCode right;
-    public KeyCode up;
-    public KeyCode down;
-    public KeyCode jump;
-    public KeyCode lunge;
+    [SerializeField] KeyCode left;
+    [SerializeField] KeyCode right;
+    [SerializeField] KeyCode up;
+    [SerializeField] KeyCode down;
+    [SerializeField] KeyCode jump;
+    [SerializeField] KeyCode lunge;
 
     [Header("Movement Tuning")]
-    public float moveSpeed;
-    public float gravity;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float jumpPower;
+
+    [Header("ground check components")]
+    [SerializeField] Transform groundCheck;
+    [SerializeField] LayerMask groundLayer;
 
     //components
     Rigidbody2D rb;
@@ -22,7 +26,6 @@ public class Player : MonoBehaviour
 
     //movement bools
     int direction;
-    bool is_moving;
 
     private void Start()
     {
@@ -33,56 +36,42 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
         //control
-        Controller();
+        Move();
+        Jump();
 
-        //move
-        if (is_moving) Move();
-
-        //jump
-
-        
     }
 
-    //controller
-    private void Controller()
+    //horizontal move
+    private void Move()
     {
         if (Input.GetKey(left))
         {
             direction = -1;
-            is_moving = true;
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
-            is_moving = true;
         }
         else
         {
-            is_moving = false;
+            direction = 0;
         }
-    }
-
-    //transform movement
-    private void Move()
-    {
-        tf.position += new Vector3(moveSpeed * direction, 0, 0);
+        rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
     }
     private void Jump()
     {
-        
+        if (Input.GetKeyDown(up) && IsGrounded())
+        {
+            print("j");
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+        }
     }
-
-
-    //rigidbody movement
-    private void RBGravity()
+    
+    private bool IsGrounded()
     {
-        rb.AddForce(new Vector2(0, -gravity));
-        print("gravity");
-    }
-    private void RBMove()
-    {
-        rb.AddForce(new Vector2(direction * moveSpeed, 0));
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 }
