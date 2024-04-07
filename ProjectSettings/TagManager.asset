@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LeftPlayer
   - RightPlayer
+  - Fallen
   layers:
   - Default
   - TransparentFX

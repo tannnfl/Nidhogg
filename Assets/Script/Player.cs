@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     [Header("ground check components")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
+    
+    //S-Variables for checkpoint spawning and death
+    Vector2 startPos;
 
     //components
     Rigidbody2D rb;
@@ -32,6 +35,9 @@ public class Player : MonoBehaviour
         //components
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
+
+        //S-Get player's starting position for now
+        startPos = transform.position;
     }
 
     void Update()
@@ -73,5 +79,23 @@ public class Player : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Fallen")) 
+        {
+            Die();
+        }
+    }
+
+    void Die() 
+    {
+        Respawn();
+    }
+
+    void Respawn() 
+    {
+        transform.position = startPos;
     }
 }
