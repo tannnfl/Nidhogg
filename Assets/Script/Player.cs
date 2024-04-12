@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    [SerializeField] string playerSide;
+
     [Header("Control")]
     [SerializeField] KeyCode left;
     [SerializeField] KeyCode right;
@@ -26,6 +29,7 @@ public class Player : MonoBehaviour
     //components
     Rigidbody2D rb;
     Transform tf;
+    SpriteRenderer spriteRenderer;
 
     //movement bools
     int direction;
@@ -35,6 +39,7 @@ public class Player : MonoBehaviour
         //components
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         //S-Get player's starting position for now
         startPos = transform.position;
@@ -55,21 +60,33 @@ public class Player : MonoBehaviour
         if (Input.GetKey(left))
         {
             direction = -1;
+            tf.localScale = new Vector3(-1, 1, 1);
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
+            tf.localScale = new Vector3(1, 1, 1);
         }
         else
         {
             direction = 0;
+
+            if (playerSide == "Left")
+            {
+                tf.localScale = new Vector3(1, 1, 1);
+            }
+            else if (playerSide == "Right")
+            {
+                tf.localScale = new Vector3(-1, 1, 1);
+            }
+
         }
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
     }
     private void Jump()
     {
-        if (Input.GetKeyDown(up) && IsGrounded())
+        if (Input.GetKeyDown(jump) && IsGrounded())
         {
             print("j");
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
