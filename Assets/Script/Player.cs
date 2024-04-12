@@ -30,9 +30,11 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer spriteRenderer;
+    Animator myAnim;
 
     //movement bools
     int direction;
+
 
     private void Start()
     {
@@ -40,9 +42,12 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        myAnim = GetComponent<Animator>();
 
         //S-Get player's starting position for now
         startPos = transform.position;
+
+
     }
 
     void Update()
@@ -57,6 +62,7 @@ public class Player : MonoBehaviour
     //horizontal move
     private void Move()
     {
+
         if (Input.GetKey(left))
         {
             direction = -1;
@@ -84,12 +90,20 @@ public class Player : MonoBehaviour
         }
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
     }
+
     private void Jump()
     {
         if (Input.GetKeyDown(jump) && IsGrounded())
         {
+            myAnim.SetBool("isJumping", true);
             print("j");
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+        }
+
+        if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
+        {
+            print("stop jump");
+            myAnim.SetBool("isJumping", false);
         }
     }
     
@@ -115,4 +129,10 @@ public class Player : MonoBehaviour
     {
         transform.position = startPos;
     }
+
+    private void ChangeAnimation(string AnimName)
+    {
+        myAnim.Play(AnimName);
+    }
+
 }
