@@ -67,17 +67,19 @@ public class Player : MonoBehaviour
         {
             direction = -1;
             tf.localScale = new Vector3(-1, 1, 1);
+            myAnim.SetBool("isRunning", true);
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
             tf.localScale = new Vector3(1, 1, 1);
+            myAnim.SetBool("isRunning", true);
         }
         else
         {
             direction = 0;
-
+            myAnim.SetBool("isRunning", false);
             if (playerSide == "Left")
             {
                 tf.localScale = new Vector3(1, 1, 1);
@@ -96,13 +98,11 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(jump) && IsGrounded())
         {
             myAnim.SetBool("isJumping", true);
-            print("j");
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
 
         if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
         {
-            print("stop jump");
             myAnim.SetBool("isJumping", false);
         }
     }
