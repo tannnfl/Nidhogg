@@ -78,7 +78,22 @@ public class Player : MonoBehaviour
         switch (newState)
         {
             case State.FistAttack:
-                //tState = fist attack time
+                //tState = fist attack animate time
+                break;
+            case State.DuckAttack:
+                //tState = duck attack animate time
+                break;
+            case State.AttackLow:
+                //tState = attack low animate time
+                break;
+            case State.AttackMid:
+                //tState = attack mid animate time
+                break;
+            case State.AttackHigh:
+                //tState = attack high animate time
+                break;
+            case State.SwordDuckAttack:
+                //tState = sword duck attack animate time
                 break;
         }
     }
@@ -161,8 +176,26 @@ public class Player : MonoBehaviour
                 //codes here
                 //...
 
+                if (tState <= 0) StartState(State.SwordDuck);
                 break;
+            case State.AttackLow:
+                //codes here
+                //...
 
+                if (tState <= 0) StartState(State.LungeLow);
+                    break;
+            case State.AttackMid:
+                //codes here
+                //...
+
+                if (tState <= 0) StartState(State.LungeMid);
+                    break;
+            case State.AttackHigh:
+                //codes here
+                //...
+
+                if (tState <= 0) StartState(State.LungeHigh);
+                    break;
         }
     }
     void EndState(State currentState)
