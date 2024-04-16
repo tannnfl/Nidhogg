@@ -35,6 +35,21 @@ public class Player : MonoBehaviour
     //movement bools
     int direction;
 
+    //state machine
+    enum State
+    {
+        Idle,FistAttack,
+        Duck,DuckAttack,
+        SwordDuck,LungeLow,LungeMid,LungeHigh,PrepThrow,
+        AttackLow,AttackMid,AttackHigh,
+        SwordDuckAttack
+    }
+    State currentState;
+    float tState;
+
+    //sword
+    bool isCollideWithSword;
+    bool isArmed;
 
     private void Start()
     {
@@ -47,16 +62,115 @@ public class Player : MonoBehaviour
         //S-Get player's starting position for now
         startPos = transform.position;
 
-
+        currentState = State.Idle;
     }
 
     void Update()
     {
+        UpdateState();
+        tState -= Time.deltaTime;
+    }
 
-        //control
-        Move();
-        Jump();
+    void StartState(State newState)
+    {
+        EndState(currentState);
+        currentState = newState;
+        switch (newState)
+        {
+            case State.FistAttack:
+                //tState = fist attack time
+                break;
+        }
+    }
+    void UpdateState()
+    {
+        switch (currentState)
+        {
+            case State.Idle:
+                Move();
+                Jump();
+                //codes here
+                //...
 
+                if (Input.GetKeyDown(lunge)) StartState(State.FistAttack);
+                if (Input.GetKeyDown(down)) StartState(State.Duck);
+                break;
+            case State.FistAttack:
+                //codes here
+                //...
+
+                if (tState <= 0) StartState(State.Idle);
+                break;
+            case State.Duck:
+                Move();
+                Jump();
+                //codes here
+                //...
+
+                if (isCollideWithSword)
+                {
+                    pickSword();
+                    StartState(State.LungeMid);
+                }
+                if (!Input.GetKey(lunge)) StartState(State.Idle);
+                break;
+            case State.DuckAttack:
+                //codes here
+                //...
+
+                if (tState <= 0) StartState(State.Duck);
+                break;
+            case State.SwordDuck:
+                //codes here
+                //...
+
+                if (Input.GetKey(up)) StartState(State.LungeLow);
+                break;
+            case State.LungeLow:
+                //codes here
+                //...
+
+                if (Input.GetKey(up)) StartState(State.LungeMid);
+                if (Input.GetKey(down)) StartState(State.SwordDuck);
+                if (Input.GetKey(lunge)) StartState(State.AttackLow);
+                break;
+            case State.LungeMid:
+                //codes here
+                //...
+
+                if (Input.GetKey(up)) StartState(State.LungeHigh);
+                if (Input.GetKey(down)) StartState(State.LungeLow);
+                if (Input.GetKey(lunge)) StartState(State.AttackMid);
+                break;
+            case State.LungeHigh:
+                //codes here
+                //...
+
+                if (Input.GetKey(up)) StartState(State.PrepThrow);
+                if (Input.GetKey(down)) StartState(State.LungeMid);
+                if (Input.GetKey(lunge)) StartState(State.AttackHigh);
+                break;
+            case State.PrepThrow:
+                //codes here
+                //...
+
+                if (Input.GetKey(down)) StartState(State.LungeHigh);
+                if (Input.GetKey(lunge)) throwSword ();
+                break;
+            case State.SwordDuckAttack:
+                //codes here
+                //...
+
+                break;
+
+        }
+    }
+    void EndState(State currentState)
+    {
+        switch (currentState)
+        {
+
+        }
     }
 
     //horizontal move
@@ -96,40 +210,69 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(jump) && IsGrounded())
         {
             myAnim.SetBool("isJumping", true);
-            print("j");
             rb.velocity = new Vector2(rb.velocity.x, jumpPower);
         }
 
         if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
         {
-            print("stop jump");
             myAnim.SetBool("isJumping", false);
         }
     }
-    
+
+    private void pickSword()
+    {
+        isArmed = true;
+        //code here
+        //...
+
+        StartState(State.LungeMid);
+    }
+
+    private void disArmed()
+    {
+        isArmed = false;
+        //create a sword, with initial state drop
+        //...
+
+        StartState(State.Idle);
+    }
+
+    private void throwSword()
+    {
+        isArmed = false;
+        //create a sword, with initial state rotation
+        //...
+
+        StartState(State.Idle);
+    }
+
     private bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Fallen")) 
         {
             Die();
         }
+        if (collision.CompareTag("sword"))
+        {
+            isCollideWithSword = true;
+        }
+        else
+        {
+            isCollideWithSword = false;
+        }
     }
-
     void Die() 
     {
         Respawn();
     }
-
     void Respawn() 
     {
         transform.position = startPos;
     }
-
     private void ChangeAnimation(string AnimName)
     {
         myAnim.Play(AnimName);
