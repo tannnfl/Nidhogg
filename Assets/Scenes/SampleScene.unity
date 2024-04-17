@@ -360,14 +360,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -5146304866126371937, guid: 1c7257354a8124530bc3b98945578539, type: 3}
-      propertyPath: m_DrawMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5146304866126371937, guid: 1c7257354a8124530bc3b98945578539, type: 3}
-      propertyPath: m_MaskInteraction
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2419416862562414633, guid: 1c7257354a8124530bc3b98945578539, type: 3}
       propertyPath: m_Name
       value: Ground
@@ -602,10 +594,14 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LocalPosition: {x: 1.2014954, y: 7.0622582, z: -14.727089}
 =======
   m_LocalPosition: {x: 1.2015164, y: 7.061253, z: -14.727089}
 >>>>>>> Sallya
+=======
+  m_LocalPosition: {x: 1.2014515, y: 7.064664, z: -14.727089}
+>>>>>>> parent of 83f46cc (new_with sprite)
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
