@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] KeyCode up;
     [SerializeField] KeyCode down;
     [SerializeField] KeyCode jump;
-    [SerializeField] KeyCode lunge;
+    [SerializeField] KeyCode attack;
 
     [Header("Movement Tuning")]
     [SerializeField] float moveSpeed;
@@ -92,7 +92,7 @@ public class Player : MonoBehaviour
                 //codes here
                 //...
 
-                if (Input.GetKeyDown(lunge)) StartState(State.FistAttack);
+                if (Input.GetKeyDown(attack)) StartState(State.FistAttack);
                 if (Input.GetKeyDown(down)) StartState(State.Duck);
                 break;
             case State.FistAttack:
@@ -110,9 +110,16 @@ public class Player : MonoBehaviour
                 if (isCollideWithSword)
                 {
                     pickSword();
-                    StartState(State.LungeMid);
+                    //if I'm still ducking, won't dirrectly enter lunge state
+                    if (!Input.GetKeyDown(down))StartState(State.LungeMid);
                 }
-                if (!Input.GetKey(lunge)) StartState(State.Idle);
+
+                if (Input.GetKey(attack)) 
+                {
+                    //code-attack, 
+                }
+
+                if (!Input.GetKey(attack)) StartState(State.Idle);
                 break;
             case State.DuckAttack:
                 //codes here
@@ -132,7 +139,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKey(up)) StartState(State.LungeMid);
                 if (Input.GetKey(down)) StartState(State.SwordDuck);
-                if (Input.GetKey(lunge)) StartState(State.AttackLow);
+                if (Input.GetKey(attack)) StartState(State.AttackLow);
                 break;
             case State.LungeMid:
                 //codes here
@@ -140,7 +147,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKey(up)) StartState(State.LungeHigh);
                 if (Input.GetKey(down)) StartState(State.LungeLow);
-                if (Input.GetKey(lunge)) StartState(State.AttackMid);
+                if (Input.GetKey(attack)) StartState(State.AttackMid);
                 break;
             case State.LungeHigh:
                 //codes here
@@ -148,14 +155,14 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKey(up)) StartState(State.PrepThrow);
                 if (Input.GetKey(down)) StartState(State.LungeMid);
-                if (Input.GetKey(lunge)) StartState(State.AttackHigh);
+                if (Input.GetKey(attack)) StartState(State.AttackHigh);
                 break;
             case State.PrepThrow:
                 //codes here
                 //...
 
                 if (Input.GetKey(down)) StartState(State.LungeHigh);
-                if (Input.GetKey(lunge)) throwSword ();
+                if (Input.GetKey(attack)) throwSword ();
                 break;
             case State.SwordDuckAttack:
                 //codes here
@@ -227,7 +234,7 @@ public class Player : MonoBehaviour
         //code here
         //...
 
-        StartState(State.LungeMid);
+        //StartState(State.LungeMid);
     }
 
     private void disArmed()
