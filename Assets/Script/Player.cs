@@ -53,6 +53,10 @@ public class Player : MonoBehaviour
     State currentState;
     float tState;
 
+    //flags
+    bool hasJumped = false;
+    int tempTimer = 0;
+
     //sword
     bool isCollideWithSword;
     bool isArmed;
@@ -77,7 +81,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         UpdateState();
-        tState -= Time.deltaTime;
+        //tState -= Time.deltaTime;
     }
 
     void StartState(State newState)
@@ -87,10 +91,10 @@ public class Player : MonoBehaviour
         switch (newState)
         {
             case State.fist_stand:
-                //tState = fist attack time
+
                 break;
             case State.fist_jump:
-                //tState = fist attack time
+
                 break;
             case State.fist_duck:
                 //tState = fist attack time
@@ -113,11 +117,12 @@ public class Player : MonoBehaviour
         {
             case State.fist_stand:
                 Move();
-                
+
+                //print("fist stand state");
 
                 if (Input.GetKeyDown(jump) && IsGrounded())
                 {
-                    StartState(State.fist_jump);
+                    StartState(State.fist_jump);                  
                 }
 
                 if (Input.GetKeyDown(attack)) 
@@ -131,43 +136,60 @@ public class Player : MonoBehaviour
                 }
                 break;
 
+
             case State.fist_jump:
                 Move();
-                Jump();
+
+                if (!hasJumped)
+                {
+                    Jump();
+                    hasJumped = true;
+                }
+
+                if (hasJumped)
+                {
+                    //var tempTimer = 0;
+                    tempTimer++;
+                    print(tempTimer);
+
+                    if (tempTimer > 20 && IsGrounded())
+                    {
+                        if (Input.GetKey(down))
+                        {
+                            tempTimer = 0;
+                            StartState(State.fist_duck);
+ 
+                        }
+                        else
+                        {
+                            StartState(State.fist_stand);
+                        }
+                    }
+                }
 
                 //animation
                 if (Input.GetKey(down))
                 {
-                    myAnim.SetBool("isDucking", true);
+                    myAnim.SetBool("isFistDucking", true);
                 }
                 else 
                 {
-                    myAnim.SetBool("isJumping", true);
+                    myAnim.SetBool("isFistJumping", true);
+                    //this works
                 }
-                          
 
                 if (Input.GetKeyDown(attack)&&(!Input.GetKey(down)))
                 {
                     //call up dive kick function
                 }
 
-                if (IsGrounded())
-                {
-                    if (Input.GetKey(down))
-                    {
-                        StartState(State.fist_duck);
-                    }
-                    else
-                    {
-                        StartState(State.fist_stand);
-                    }
-                }
 
                 break;
 
             case State.fist_duck:
                 Move();
                 //change the sprite and collider for the player here
+                myAnim.SetBool("isFistDucking", true);
 
                 if (!Input.GetKey(down)) 
                 {
@@ -304,10 +326,13 @@ public class Player : MonoBehaviour
                 //tState = fist attack time
                 break;
             case State.fist_jump:
-                //tState = fist attack time
+                hasJumped = false;
+                tempTimer = 0;
+                myAnim.SetBool("isFistJumping", false);
                 break;
             case State.fist_duck:
-                //tState = fist attack time
+                myAnim.SetBool("isFistDucking", false);
+
                 break;
             case State.sword_stand:
                 //tState = fist attack time
@@ -330,19 +355,19 @@ public class Player : MonoBehaviour
         {
             direction = -1;
             tf.localScale = new Vector3(-1, 1, 1);
-            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isFistRunning", true);
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
             tf.localScale = new Vector3(1, 1, 1);
-            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isFistRunning", true);
         }
         else
         {
             direction = 0;
-            myAnim.SetBool("isRunning", false);
+            myAnim.SetBool("isFistRunning", false);
             if (playerSide == "Left")
             {
                 tf.localScale = new Vector3(1, 1, 1);
@@ -359,11 +384,11 @@ public class Player : MonoBehaviour
     private void Jump()
     {
 
-        rb.velocity = new Vector2(rb.velocity.x, jumpPower);    
+        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
-        if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
+       if (IsGrounded()&& myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
         {
-            myAnim.SetBool("isJumping", false);
+            
         }
     }
 
@@ -393,10 +418,11 @@ public class Player : MonoBehaviour
         //StartState(State.Idle);
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Fallen")) 

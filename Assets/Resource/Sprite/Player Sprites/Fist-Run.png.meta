@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1d9834326847f4d7bafa69fa7a7f91f0
+guid: 00afc381086a44665bb3bfdd763661fe
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jump_0
+      name: Fist-Run_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1764
-        width: 466
-        height: 881
+        x: 51
+        y: 651
+        width: 225
+        height: 328
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00a086994c5544172b6049ad9c73ac4a
-      internalID: -783978681
+      spriteID: 5d2c6d89347d3434cb699f3992cb9f4f
+      internalID: 558638455
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_1
+      name: Fist-Run_1
       rect:
         serializedVersion: 2
-        x: 466
-        y: 1764
-        width: 466
-        height: 881
+        x: 402
+        y: 651
+        width: 222
+        height: 289
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5fc9412bd0f84f42ab18373dc351263
-      internalID: 721577781
+      spriteID: ac2388b403a2641e5acc0001ade9cab2
+      internalID: 1546059769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_2
+      name: Fist-Run_2
       rect:
         serializedVersion: 2
-        x: 932
-        y: 1764
-        width: 466
-        height: 881
+        x: 735
+        y: 651
+        width: 183
+        height: 317
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a10d95ae021c4983bb795f8321d8688
-      internalID: 803440898
+      spriteID: 885e9198034304a30843049ee625f8f3
+      internalID: 2088706422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_3
+      name: Fist-Run_3
       rect:
         serializedVersion: 2
-        x: 1398
-        y: 1764
-        width: 466
-        height: 881
+        x: 1011
+        y: 682
+        width: 237
+        height: 289
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52dd322d5a6044c94ba9b55dc76b3de5
-      internalID: 771681852
+      spriteID: e0c803a572a3e4973b213594a606013a
+      internalID: 2007786492
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_4
+      name: Fist-Run_4
       rect:
         serializedVersion: 2
-        x: 1864
-        y: 1764
-        width: 466
-        height: 881
+        x: 14
+        y: 360
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,20 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 14fd6436583414cffab97fa49985e5e6
-      internalID: 1526884930
+      spriteID: bc0d6f028d3e842d481c5d22f712fecf
+      internalID: 2110246044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_5
+      name: Fist-Run_5
       rect:
         serializedVersion: 2
-        x: 0
-        y: 883
-        width: 466
-        height: 881
+        x: 371
+        y: 349
+        width: 250
+        height: 301
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +229,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 433e6d47f58b44ac08b0922e0477f0fb
-      internalID: 1341462643
+      spriteID: 12e3dd04ff88741448aefb3f5030bc72
+      internalID: -1774441389
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_6
+      name: Fist-Run_6
       rect:
         serializedVersion: 2
-        x: 466
-        y: 883
-        width: 466
-        height: 881
+        x: 737
+        y: 326
+        width: 184
+        height: 317
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,20 +250,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6b096f1df32ab48f9accbcdbdd9ed4c1
-      internalID: -1196248823
+      spriteID: 033c18727e6ff4e02945ee7d127d2f52
+      internalID: -144347964
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_7
+      name: Fist-Run_7
       rect:
         serializedVersion: 2
-        x: 932
-        y: 883
-        width: 466
-        height: 881
+        x: 1072
+        y: 329
+        width: 199
+        height: 314
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3667010067204c99a8fcf4f12f4432c
-      internalID: 1264402749
+      spriteID: 17dec1730f60547058bd0543f025ec64
+      internalID: -715805325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_8
+      name: Fist-Run_8
       rect:
         serializedVersion: 2
-        x: 1398
-        y: 883
-        width: 466
-        height: 881
+        x: 42
+        y: 45
+        width: 275
+        height: 260
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,20 +292,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: beb5d75fe93f046949d5116fb346be8b
-      internalID: 1029090222
+      spriteID: 33d9a4558d95d4525889e50555288b70
+      internalID: -652468325
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_9
+      name: Fist-Run_9
       rect:
         serializedVersion: 2
-        x: 1864
-        y: 883
-        width: 466
-        height: 881
+        x: 397
+        y: 1
+        width: 196
+        height: 304
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,20 +313,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec9e93a4467d3439b84ae5d771877e0d
-      internalID: 267615354
+      spriteID: 890ac18b01b9d4890948b8adeb1e1a6c
+      internalID: -1939319674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jump_10
+      name: Fist-Run_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2
-        width: 466
-        height: 881
+        x: 737
+        y: 3
+        width: 184
+        height: 325
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -334,71 +334,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5075a5ad0b96a491c9ad4323eb87c5ce
-      internalID: 1936770323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_11
-      rect:
-        serializedVersion: 2
-        x: 466
-        y: 2
-        width: 466
-        height: 881
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e2754a211248b4028a7f75bc96d5aa44
-      internalID: -2127520210
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_12
-      rect:
-        serializedVersion: 2
-        x: 932
-        y: 2
-        width: 466
-        height: 881
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4f8c8f5af779d498ab8830e97694d604
-      internalID: -1585180730
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_13
-      rect:
-        serializedVersion: 2
-        x: 1398
-        y: 2
-        width: 466
-        height: 881
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bcada9afe811c4d06aeabe2130f28613
-      internalID: -772959252
+      spriteID: f3a0deac7fa7d405baec587b4792e106
+      internalID: -2054483801
       vertices: []
       indices: 
       edges: []
@@ -414,20 +351,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Jump_0: -783978681
-      Jump_1: 721577781
-      Jump_10: 1936770323
-      Jump_11: -2127520210
-      Jump_12: -1585180730
-      Jump_13: -772959252
-      Jump_2: 803440898
-      Jump_3: 771681852
-      Jump_4: 1526884930
-      Jump_5: 1341462643
-      Jump_6: -1196248823
-      Jump_7: 1264402749
-      Jump_8: 1029090222
-      Jump_9: 267615354
+      Fist-Run_0: 558638455
+      Fist-Run_1: 1546059769
+      Fist-Run_10: -2054483801
+      Fist-Run_2: 2088706422
+      Fist-Run_3: 2007786492
+      Fist-Run_4: 2110246044
+      Fist-Run_5: -1774441389
+      Fist-Run_6: -144347964
+      Fist-Run_7: -715805325
+      Fist-Run_8: -652468325
+      Fist-Run_9: -1939319674
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
