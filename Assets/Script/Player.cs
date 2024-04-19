@@ -94,7 +94,16 @@ public class Player : MonoBehaviour
 
                 break;
             case State.fist_jump:
-
+                //animation
+                if (Input.GetKey(down))
+                {
+                    myAnim.SetBool("isFistDucking", true);
+                }
+                else
+                {
+                    myAnim.SetBool("isFistJumping", true);
+                    //this works
+                }
                 break;
             case State.fist_duck:
                 //tState = fist attack time
@@ -122,7 +131,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(jump) && IsGrounded())
                 {
-                    StartState(State.fist_jump);                  
+                    StartState(State.fist_jump);
                 }
 
                 if (Input.GetKeyDown(attack)) 
@@ -138,44 +147,31 @@ public class Player : MonoBehaviour
 
 
             case State.fist_jump:
+
+                tempTimer++;
+
                 Move();
 
                 if (!hasJumped)
                 {
                     Jump();
-                    hasJumped = true;
                 }
 
-                if (hasJumped)
+                //adjust time for animation duration
+                if (hasJumped && IsGrounded() && tempTimer > 50)
                 {
-                    //var tempTimer = 0;
-                    tempTimer++;
-                    print(tempTimer);
-
-                    if (tempTimer > 20 && IsGrounded())
-                    {
-                        if (Input.GetKey(down))
+                        if (Input.GetKey(down) && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation"))
                         {
-                            tempTimer = 0;
                             StartState(State.fist_duck);
- 
+
                         }
-                        else
+                        else if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
                         {
+                            myAnim.SetBool("isFistJumping", false);
+                            print("change animation?");
                             StartState(State.fist_stand);
                         }
-                    }
-                }
-
-                //animation
-                if (Input.GetKey(down))
-                {
-                    myAnim.SetBool("isFistDucking", true);
-                }
-                else 
-                {
-                    myAnim.SetBool("isFistJumping", true);
-                    //this works
+ 
                 }
 
                 if (Input.GetKeyDown(attack)&&(!Input.GetKey(down)))
@@ -326,9 +322,11 @@ public class Player : MonoBehaviour
                 //tState = fist attack time
                 break;
             case State.fist_jump:
+                print("end:" + tempTimer);
+                print("end:" + hasJumped);
                 hasJumped = false;
                 tempTimer = 0;
-                myAnim.SetBool("isFistJumping", false);
+                print("ever here in the endstate?");
                 break;
             case State.fist_duck:
                 myAnim.SetBool("isFistDucking", false);
@@ -386,10 +384,12 @@ public class Player : MonoBehaviour
 
         rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
-       if (IsGrounded()&& myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
-        {
-            
-        }
+        hasJumped = true;
+
+        /* if (IsGrounded()&& myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
+          {
+              myAnim.SetBool("isFistJumping", false);
+          } */
     }
 
     private void pickSword()
