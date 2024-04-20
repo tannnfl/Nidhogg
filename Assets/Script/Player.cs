@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] string playerSide;
 
+    [SerializeField] Color playerColor;
+
     [Header("Control")]
     [SerializeField] KeyCode left;
     [SerializeField] KeyCode right;
@@ -22,7 +24,7 @@ public class Player : MonoBehaviour
     [Header("ground check components")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
-    
+
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
 
@@ -53,6 +55,12 @@ public class Player : MonoBehaviour
     State currentState;
     float tState;
 
+    //action flags & timers
+    bool hasJumped = false;
+    int tempTimer = 0;
+    bool isDivekicking = false;
+    int swordTempTimer = 0;
+
     //sword
     bool isCollideWithSword;
     bool isArmed;
@@ -72,12 +80,46 @@ public class Player : MonoBehaviour
         startPos = transform.position;
 
         currentState = State.fist_stand;
+
+        isArmed = false;
     }
 
     void Update()
     {
+        //tState -= Time.deltaTime;
         UpdateState();
-        tState -= Time.deltaTime;
+    
+
+        //Animator setup, if need different colored sword animations for different players
+         
+          if (playerSide == "Left")
+        {
+            if (!isArmed)
+            {
+                spriteRenderer.color = playerColor;             
+            }
+
+            if (isArmed)
+            {
+                spriteRenderer.color = Color.white;
+            }
+        }
+        if (playerSide == "Right")
+        {
+            if (!isArmed)
+            {
+                spriteRenderer.color = playerColor;
+            }
+
+            if (isArmed)
+            {
+                spriteRenderer.color = Color.white;
+            }
+        }
+        
+
+
+
     }
 
     void StartState(State newState)
@@ -87,19 +129,39 @@ public class Player : MonoBehaviour
         switch (newState)
         {
             case State.fist_stand:
-                //tState = fist attack time
+
                 break;
             case State.fist_jump:
-                //tState = fist attack time
+                //animation
+                if (Input.GetKey(down))
+                {
+                    myAnim.SetBool("isFistDucking", true);
+                }
+                else
+                {
+                    myAnim.SetBool("isFistJumping", true);
+                    
+                }
                 break;
             case State.fist_duck:
-                //tState = fist attack time
+                
                 break;
             case State.sword_stand:
-                //tState = fist attack time
                 break;
             case State.sword_jump:
-                //tState = fist attack time
+                //animation
+                if (Input.GetKey(down))
+                {
+                    myAnim.SetBool("isSwordDucking", true);
+                }
+                else if (Input.GetKey(up)) //prepthrow
+                {
+                    myAnim.SetInteger("swordPos", 2);
+                }
+                else
+                {
+                    myAnim.SetBool("isSwordJumping", true);
+                }
                 break;
             case State.sword_duck:
                 //tState = fist attack time
@@ -113,7 +175,8 @@ public class Player : MonoBehaviour
         {
             case State.fist_stand:
                 Move();
-                
+
+                //print("fist stand state");
 
                 if (Input.GetKeyDown(jump) && IsGrounded())
                 {
@@ -122,7 +185,12 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(attack)) 
                 {
-                    //call up attack function here 
+                    FistAttack();
+                }
+
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isFistAttacking", false);
                 }
 
                 if (Input.GetKey(down)) 
@@ -131,43 +199,60 @@ public class Player : MonoBehaviour
                 }
                 break;
 
-            case State.fist_jump:
-                Move();
-                Jump();
 
-                //animation
-                if (Input.GetKey(down))
+            case State.fist_jump:
+
+                tempTimer++;
+
+                Move();
+
+                if (!hasJumped)
                 {
-                    myAnim.SetBool("isDucking", true);
+                    Jump();
                 }
-                else 
+
+                //divekick
+                if (hasJumped && Input.GetKeyDown(attack) && (!Input.GetKey(down)))
                 {
-                    myAnim.SetBool("isJumping", true);
+                        Divekick();
+                        isDivekicking = true;
                 }
-                          
+
+                //divekick landing
+                if (isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                {
+                    StartState(State.fist_stand);
+                }
+
+
+                //normal landing, remember to adjust time for animation duration
+                if (!isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                {
+                        if (Input.GetKey(down) && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation"))
+                        {
+                            StartState(State.fist_duck);
+
+                        }
+                        else if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
+                        {
+                            StartState(State.fist_stand);
+                        }
+ 
+                }
 
                 if (Input.GetKeyDown(attack)&&(!Input.GetKey(down)))
                 {
                     //call up dive kick function
                 }
 
-                if (IsGrounded())
-                {
-                    if (Input.GetKey(down))
-                    {
-                        StartState(State.fist_duck);
-                    }
-                    else
-                    {
-                        StartState(State.fist_stand);
-                    }
-                }
 
                 break;
 
             case State.fist_duck:
+
                 Move();
                 //change the sprite and collider for the player here
+                myAnim.SetBool("isFistDucking", true);
 
                 if (!Input.GetKey(down)) 
                 {
@@ -181,10 +266,16 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(attack))
                 {
-                    //call up sweep leg function here 
+                    print("yes");
+                    Legsweep();
                 }
 
-                if (isCollideWithSword)
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isFistLegsweeping", false);
+                }
+
+                if (isCollideWithSword && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation"))
                 {
                     pickSword();
                     //if I'm still ducking, won't dirrectly enter lunge state
@@ -194,6 +285,8 @@ public class Player : MonoBehaviour
 
             case State.sword_stand:
                 Move();
+                SwordAction();
+                print(swordTempTimer);
 
                 if (Input.GetKeyDown(jump) && IsGrounded())
                 {
@@ -210,75 +303,155 @@ public class Player : MonoBehaviour
                     swordPos -= 1;
                 }
 
-                if (Input.GetKey(up) && swordPos == 1)
+                //animation switch
+                switch (swordPos)
                 {
-                    isPrepThrow = true;
-                }
-                else 
-                {
-                    isPrepThrow = false;
+                    case -1:
+                        myAnim.SetInteger("swordPos", -1);
+
+                        swordTempTimer++;
+
+                        if (Input.GetKey(down) && swordTempTimer > 60)
+                        {
+                            swordTempTimer = 0;
+                            StartState(State.sword_duck);
+                        }
+
+                        break;
+
+                    case 0:
+                        swordTempTimer = 0;
+                        myAnim.SetInteger("swordPos", 0);
+                        break;
+
+                    case 1:
+                        myAnim.SetInteger("swordPos", 1);
+
+                        swordTempTimer++;
+
+                        if(swordTempTimer > 60)
+                        {
+                            if (Input.GetKey(up))
+                            {
+                                isPrepThrow = true;
+                                myAnim.SetInteger("swordPos", 2);
+                                //swordTempTimer = 0;
+                            }
+                            else
+                            {
+                                isPrepThrow = false;
+                            }
+                        }
+   
+                        break;
                 }
 
-                if (Input.GetKeyDown(attack) && (!isPrepThrow))
+                if (Input.GetKeyDown(attack) && !isPrepThrow)
                 {
-                    //call up sword attack function here 
-                }
-                else if(Input.GetKeyDown(attack) && (isPrepThrow))
+                    //call attack function
+                    if (Input.GetKeyDown(attack))
+                    {
+                        myAnim.SetBool("isSwordAttacking", true);
+                    }
+                    if (Input.GetKeyUp(attack))
+                    {
+                        myAnim.SetBool("isSwordAttacking", false);
+                    }
+                } 
+
+                if (isPrepThrow && Input.GetKeyDown(attack))
                 {
-                    //call up sword throw function here
+                        myAnim.SetBool("isSwordAttacking", true);
+                        //call throw sword function
+                        disArmed();
+                        StartState(State.fist_stand);
+       
+                    if (Input.GetKeyUp(attack))
+                    {
+                        myAnim.SetBool("isSwordAttacking", false);
+                    }
                 }
 
-
-                if (Input.GetKey(down )&& swordPos == -1)
-                {
-                    StartState(State.sword_duck);
-                }
                 break;
 
             case State.sword_jump:
-                Move();
-                Jump();
 
-                //animation
-                if (Input.GetKey(down))
+                tempTimer++;
+
+                Move();
+
+                if (!hasJumped)
                 {
-                    myAnim.SetBool("isSwordDucking", true);
+                    Jump();
                 }
-                else
-                {
-                    myAnim.SetBool("isSwordJumping", true);
-                }
+
+                //throw sword
 
                 if (Input.GetKey(up))
                 {
                     isPrepThrow = true;
                 }
-                else 
+                else
                 {
                     isPrepThrow = false;
                 }
 
-                if (Input.GetKeyDown(attack) && isPrepThrow)
+                if (isPrepThrow)
                 {
-                    //call up sword throw function
+                    if (Input.GetKeyDown(attack))
+                    {
+                        myAnim.SetBool("isSwordAttacking", true);
+                        //call throw sword function
+                    }
+
+                    if(Input.GetKeyUp(attack))
+                    {
+                        myAnim.SetBool("isSwordAttacking", false);
+                        disArmed();
+                        isPrepThrow = false;
+                        StartState(State.fist_stand);
+                    }  
+                }
+  
+
+
+                //divekick
+                if (!isPrepThrow && hasJumped && Input.GetKeyDown(attack) && (!Input.GetKey(down)))
+                {
+                    Divekick();
+                    isDivekicking = true;
                 }
 
-                if (IsGrounded())
+                //divekick or prepthrow landing
+                if ((isDivekicking || isPrepThrow) && hasJumped && IsGrounded() && tempTimer > 50)
                 {
-                    if (Input.GetKey(down))
+                    StartState(State.sword_stand);
+                }
+
+
+                //normal landing, remember to adjust time for animation duration
+                if (!isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                {
+                    if (Input.GetKey(down) && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Duck_Animation"))
                     {
                         StartState(State.sword_duck);
+
                     }
-                    else
+                    else if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Jump_Animation"))
                     {
                         StartState(State.sword_stand);
                     }
+
                 }
+
 
                 break;
 
             case State.sword_duck:
                 Move();
+
+                myAnim.SetBool("isSwordDucking", true);
+
                 if (!Input.GetKey(down))
                 {
                     StartState(State.sword_stand);
@@ -291,8 +464,21 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(attack))
                 {
+                    Legsweep();
+                }
+
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isSwordLegsweeping", false);
+                }
+
+
+                if (Input.GetKeyDown(attack))//&& some condition, like having already duck jumped once
+                {
                     //new element-spinning sword function call up here
                 }
+
+
                 break;
         }
     }
@@ -304,19 +490,29 @@ public class Player : MonoBehaviour
                 //tState = fist attack time
                 break;
             case State.fist_jump:
-                //tState = fist attack time
+                hasJumped = false;
+                tempTimer = 0;
+                isDivekicking = false;
+                myAnim.SetBool("isFistDivekicking", false);
+                myAnim.SetBool("isFistJumping", false);
                 break;
             case State.fist_duck:
-                //tState = fist attack time
+                myAnim.SetBool("isFistDucking", false);
                 break;
             case State.sword_stand:
                 //tState = fist attack time
                 break;
             case State.sword_jump:
-                //tState = fist attack time
+                hasJumped = false;
+                tempTimer = 0;
+                isDivekicking = false;
+                myAnim.SetBool("isSwordDivekicking", false);
+                myAnim.SetBool("isSwordJumping", false);
+                swordPos = 0;
                 break;
             case State.sword_duck:
-                //tState = fist attack time
+                myAnim.SetBool("isSwordDucking", false);
+
                 break;
 
         }
@@ -330,19 +526,19 @@ public class Player : MonoBehaviour
         {
             direction = -1;
             tf.localScale = new Vector3(-1, 1, 1);
-            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isFistRunning", true);
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
             tf.localScale = new Vector3(1, 1, 1);
-            myAnim.SetBool("isRunning", true);
+            myAnim.SetBool("isFistRunning", true);
         }
         else
         {
             direction = 0;
-            myAnim.SetBool("isRunning", false);
+            myAnim.SetBool("isFistRunning", false);
             if (playerSide == "Left")
             {
                 tf.localScale = new Vector3(1, 1, 1);
@@ -359,17 +555,124 @@ public class Player : MonoBehaviour
     private void Jump()
     {
 
-        rb.velocity = new Vector2(rb.velocity.x, jumpPower);    
+        rb.velocity = new Vector2(rb.velocity.x, jumpPower);
 
-        if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
+        hasJumped = true;
+
+        /* if (IsGrounded()&& myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation"))
+          {
+              myAnim.SetBool("isFistJumping", false);
+          } */
+    }
+
+    private void FistAttack()
+    {
+        myAnim.SetBool("isFistAttacking", true);
+
+        //fist attack/punch code here
+    }
+
+    private void SwordAction()
+    {
+        switch (swordPos)
         {
-            myAnim.SetBool("isJumping", false);
+            case -1:
+                myAnim.SetInteger("swordPos", -1);
+
+                if (Input.GetKeyDown(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", true);
+                    //code for sword action and hitboxes at different height
+                }
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", false);
+                }
+
+                break;
+
+            case 0:
+                myAnim.SetInteger("swordPos", 0);
+
+                if (Input.GetKeyDown(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", true);
+                    //code for sword action and hitboxes at different height
+                }
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", false);
+                }
+
+
+                break;
+
+            case 1:
+                myAnim.SetInteger("swordPos", 1);
+
+                if (Input.GetKeyDown(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", true);
+                    //code for sword action and hitboxes at different height
+                }
+                if (Input.GetKeyUp(attack))
+                {
+                    myAnim.SetBool("isSwordAttacking", false);
+                }
+
+                break;
+        }
+
+        if (isPrepThrow) //prepping throw sword
+        {
+            myAnim.SetInteger("swordPos", 2);
+
+            if (Input.GetKeyDown(attack)) //throwing sword
+            {
+                myAnim.SetBool("isSwordAttacking", true);
+                disArmed();
+            }
+            if (Input.GetKeyUp(attack))
+            {
+                myAnim.SetBool("isSwordAttacking", false);
+            }
+        }
+
+    }
+
+    private void Divekick()
+    {
+        if (!isArmed)
+        {
+            myAnim.SetBool("isFistDivekicking", true);
+        }
+
+        else if (isArmed)
+        {
+            myAnim.SetBool("isSwordDivekicking", true);
+        }
+
+        //divekick attack and movement code here
+    }
+
+    private void Legsweep()
+    {
+        if (!isArmed)
+        {
+            myAnim.SetBool("isFistLegsweeping", true);
+        }
+
+        else if (isArmed)
+        {
+            myAnim.SetBool("isSwordLegsweeping", true);
         }
     }
+
 
     private void pickSword()
     {
         isArmed = true;
+        myAnim.SetBool("isArmed", true);
         //code here
         //...
 
@@ -379,10 +682,12 @@ public class Player : MonoBehaviour
     private void disArmed()
     {
         isArmed = false;
+        myAnim.SetBool("isArmed", false);
+
         //create a sword, with initial state drop
         //...
 
-       // StartState(State.Idle);
+        // StartState(State.Idle);
     }
 
     private void throwSword()
@@ -393,10 +698,11 @@ public class Player : MonoBehaviour
         //StartState(State.Idle);
     }
 
-    private bool IsGrounded()
+    public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Fallen")) 
