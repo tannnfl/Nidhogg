@@ -42,8 +42,12 @@ public class Player : MonoBehaviour
     //state machine
     enum State
     {
-        fist_stand, fist_jump, fist_duck,
+
+        fist_stand, 
+        fist_jump, 
+        fist_duck, fist_legsweep,
         sword_stand, sword_jump, sword_duck,
+
 
         /*
         Idle,FistAttack,
@@ -59,7 +63,6 @@ public class Player : MonoBehaviour
 
     //action flags & timers
     bool hasJumped = false;
-    int tempTimer = 0;
     bool isDivekicking = false;
     int swordTempTimer = 0;
 
@@ -90,18 +93,33 @@ public class Player : MonoBehaviour
     {
         //tState -= Time.deltaTime;
         UpdateState();
-    
+        if (Input.GetKeyDown(attack))
+        {
+            if(!(
+                (
+                    myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation")
+                    ||
+                    myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Duck_Animation")
+                )// ultimate roll attack
+                &&
+                !IsGrounded()
+                ))
+            myAnim.SetBool("isAttacking", true);
+        }
+        else myAnim.SetBool("isAttacking", false);
 
         //Animator setup, if need different colored sword animations for different players
-          if (playerSide == "Left")
+        if (playerSide == "Left")
         {
             if (!isArmed)
             {
+                print(1);
                 spriteRenderer.color = playerColor;             
             }
 
             if (isArmed)
             {
+                print(2);
                 spriteRenderer.color = Color.white;
             }
         }
@@ -109,18 +127,15 @@ public class Player : MonoBehaviour
         {
             if (!isArmed)
             {
+                print(3);
                 spriteRenderer.color = playerColor;
             }
-
             if (isArmed)
             {
+                print(4);
                 spriteRenderer.color = Color.white;
             }
         }
-        
-
-
-
     }
 
     void StartState(State newState)
@@ -133,7 +148,7 @@ public class Player : MonoBehaviour
 
                 break;
             case State.fist_jump:
-                /*
+
                 //animation
                 if (Input.GetKey(down))
                 {
@@ -143,7 +158,7 @@ public class Player : MonoBehaviour
                 {
                     myAnim.SetBool("isJumping", true);  
                 }
-                */
+
                 break;
             case State.fist_duck:
                 
@@ -151,7 +166,7 @@ public class Player : MonoBehaviour
             case State.sword_stand:
                 break;
             case State.sword_jump:
-                /*
+
                 //animation
                 if (Input.GetKey(down))
                 {
@@ -166,11 +181,9 @@ public class Player : MonoBehaviour
                     myAnim.SetBool("isJumping", true);
                 }
                 break;
-                */
             case State.sword_duck:
                 //tState = fist attack time
                 break;
-
         }
     }
     void UpdateState()
@@ -180,14 +193,14 @@ public class Player : MonoBehaviour
             case State.fist_stand:
                 Move(moveSpeed);
                 Jump(jumpPower);
-                if (Input.GetKeyDown(jump) && !IsGrounded())
+                if (Input.GetKeyDown(jump) && IsGrounded())
                 {
                     StartState(State.fist_jump);
                 }
 
                 if (Input.GetKeyDown(attack)) 
                 {
-                    FistAttack();
+                    //FistAttack();
                 }
 
                 if (Input.GetKeyUp(attack))
@@ -203,30 +216,30 @@ public class Player : MonoBehaviour
 
 
             case State.fist_jump:
-
-                tempTimer++;
-
                 Move(moveSpeed);
 
-                if (!IsGrounded())
+                if (IsGrounded())
                 {
                     Jump(jumpPower);
                 }
 
+                /*
                 //divekick
                 if (hasJumped && Input.GetKeyDown(attack) && (!Input.GetKey(down)))
                 {
+                    print(212);
                         Divekick();
                         isDivekicking = true;
                 }
+                */
 
                 //divekick landing
-                if (isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                if (IsGrounded())
                 {
                     StartState(State.fist_stand);
                 }
 
-
+                /*
                 //normal landing, remember to adjust time for animation duration
                 if (!isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
                 {
@@ -241,12 +254,16 @@ public class Player : MonoBehaviour
                         }
  
                 }
+                */
 
+                /*
                 if (Input.GetKeyDown(attack)&&(!Input.GetKey(down)))
                 {
                     //call up dive kick function
+                    print(242);
+                    Divekick();
                 }
-
+                */
 
                 break;
 
@@ -269,7 +286,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(attack))
                 {
-                    Legsweep();
+                    //Legsweep();
                 }
 
                 if (Input.GetKeyUp(attack))
@@ -287,12 +304,15 @@ public class Player : MonoBehaviour
 
             case State.sword_stand:
                 Move(moveSpeed);
+                Jump(jumpPower);
                 SwordAction();
 
+                /*
                 if (Input.GetKeyDown(jump) && IsGrounded())
                 {
                     StartState(State.sword_jump);
                 }
+                */
 
                 if (Input.GetKeyDown(up) && swordPos < 1) 
                 {
@@ -352,11 +372,7 @@ public class Player : MonoBehaviour
                     //call attack function
                     if (Input.GetKeyDown(attack))
                     {
-                        myAnim.SetBool("is]Attacking", true);
-                    }
-                    if (Input.GetKeyUp(attack))
-                    {
-                        myAnim.SetBool("isAttacking", false);
+                        myAnim.SetBool("isAttacking", true);
                     }
                 } 
 
@@ -377,14 +393,10 @@ public class Player : MonoBehaviour
 
             case State.sword_jump:
 
-                tempTimer++;
+                //tempTimer++;
 
                 Move(moveSpeed);
-
-                if (!IsGrounded())
-                {
-                    Jump(jumpPower);
-                }
+                Jump(jumpPower);
 
                 //throw sword
 
@@ -413,25 +425,30 @@ public class Player : MonoBehaviour
                         StartState(State.fist_stand);
                     }  
                 }
-  
-
 
                 //divekick
+                /*
                 if (!isPrepThrow && hasJumped && Input.GetKeyDown(attack) && (!Input.GetKey(down)))
                 {
+                    print(415);
                     Divekick();
                     isDivekicking = true;
                 }
+                */
 
                 //divekick or prepthrow landing
-                if ((isDivekicking || isPrepThrow) && hasJumped && IsGrounded() && tempTimer > 50)
+                //if ((isDivekicking || isPrepThrow) && hasJumped && IsGrounded() && tempTimer > 50)
+                /*
+                if (IsGrounded())
                 {
+                    print(422);
                     StartState(State.sword_stand);
                 }
-
+                */
 
                 //normal landing, remember to adjust time for animation duration
-                if (!isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                //if (!isDivekicking && hasJumped && IsGrounded() && tempTimer > 50)
+                if (IsGrounded())
                 {
                     if (Input.GetKey(down) && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Duck_Animation"))
                     {
@@ -444,8 +461,6 @@ public class Player : MonoBehaviour
                     }
 
                 }
-
-
                 break;
 
             case State.sword_duck:
@@ -466,7 +481,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(attack))
                 {
-                    Legsweep();
+                    //Legsweep();
                 }
 
                 if (Input.GetKeyUp(attack))
@@ -493,7 +508,6 @@ public class Player : MonoBehaviour
                 break;
             case State.fist_jump:
                 hasJumped = false;
-                tempTimer = 0;
                 isDivekicking = false;
                 myAnim.SetBool("isAttacking", false);
                 myAnim.SetBool("isJumping", false);
@@ -506,7 +520,6 @@ public class Player : MonoBehaviour
                 break;
             case State.sword_jump:
                 hasJumped = false;
-                tempTimer = 0;
                 isDivekicking = false;
                 myAnim.SetBool("isAttacking", false);
                 myAnim.SetBool("isJumping", false);
@@ -522,8 +535,16 @@ public class Player : MonoBehaviour
     //horizontal move
     private void Move(float _moveSpeed)
     {
-
-        if (Input.GetKey(left))
+        if (
+            myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos-1_Attack_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos0_Attack_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos1_Attack_Animation")
+            )
+        {
+            direction = 1;
+            myAnim.SetBool("isRunning", false);
+        }
+        else if (Input.GetKey(left))
         {
             direction = -1;
             tf.localScale = new Vector3(-1, 1, 1);
@@ -555,26 +576,31 @@ public class Player : MonoBehaviour
 
     private void Jump(float _jumpPower)
     {
-        if (!IsGrounded())
+        if (IsGrounded() && Input.GetKeyDown(jump))
         {
+            myAnim.SetBool("isJumping", true);
             rb.velocity = new Vector2(rb.velocity.x, _jumpPower);
             hasJumped = true;
         }
         
     }
-
+    /*
     private void FistAttack()
     {
-        myAnim.SetBool("isAttacking", true);
+        if (myAnim.GetBool("isAttacking")) myAnim.SetBool("isAttacking", false);
+        else myAnim.SetBool("isAttacking", true);
 
         //fist attack/punch code here
     }
+    */
 
     private void SwordAction()
     {
         if (Input.GetKeyDown(attack))
         {
-            myAnim.SetBool("isAttacking", true);
+
+            //if(myAnim.GetBool("isAttacking")) myAnim.SetBool("isAttacking", false);
+            //else myAnim.SetBool("isAttacking", true);
             switch (swordPos)
             {
                 case -1:
@@ -603,21 +629,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*
     private void Divekick()
     {
             myAnim.SetBool("isAttacking", true);
 
-        //divekick attack and movement code here
+            //divekick attack and movement code here
     }
-
+    */
+    /*
     private void Legsweep()
     {
-            myAnim.SetBool("isAttacking", true);
+        if (myAnim.GetBool("isAttacking")) myAnim.SetBool("isAttacking", false);
+        else myAnim.SetBool("isAttacking", true);
     }
+    
 
-
+    */
     private void pickSword()
     {
+        print(631);
         isArmed = true;
         myAnim.SetBool("isArmed", true);
         //code here
@@ -625,6 +656,7 @@ public class Player : MonoBehaviour
 
         //StartState(State.LungeMid);
     }
+     
 
     private void disArmed()
     {
@@ -647,7 +679,17 @@ public class Player : MonoBehaviour
 
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        bool temp = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        if (temp)
+        {
+            myAnim.SetBool("isOnGround", true);
+            myAnim.SetBool("isJumping", false);
+        }
+        else
+        {
+            myAnim.SetBool("isOnGround", false);
+        }
+        return temp;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

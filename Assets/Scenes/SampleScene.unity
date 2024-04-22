@@ -1041,6 +1041,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 262545657250061343, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 262545657250061343, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: m_TagString
       value: RightPlayer
       objectReference: {fileID: 0}
