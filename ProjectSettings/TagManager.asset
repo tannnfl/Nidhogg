@@ -7,11 +7,12 @@ TagManager:
   - LeftPlayer
   - RightPlayer
   - Fallen
+  - sword
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Ground
@@ -52,4 +53,7 @@ TagManager:
     locked: 0
   - name: RightPlayer
     uniqueID: 4119930437
+    locked: 0
+  - name: Items
+    uniqueID: 690361123
     locked: 0
