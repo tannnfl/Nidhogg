@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] KeyCode up;
     [SerializeField] KeyCode down;
     [SerializeField] KeyCode jump;
-    [SerializeField] KeyCode lunge;
+    [SerializeField] KeyCode attack;
 
     [Header("Movement Tuning")]
     [SerializeField] float moveSpeed;
@@ -23,7 +23,9 @@ public class Player : MonoBehaviour
     [Header("ground check components")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
-    
+
+    [Header("Sprite and Animation")]
+    [SerializeField] Color playerColor;
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
 
@@ -39,31 +41,30 @@ public class Player : MonoBehaviour
     //state machine
     enum State
     {
-<<<<<<< Updated upstream
+        /*
         Idle,FistAttack,
         Duck,DuckAttack,
         SwordDuck,LungeLow,LungeMid,LungeHigh,PrepThrow,
         AttackLow,AttackMid,AttackHigh,
         SwordDuckAttack
-=======
+        */
         fist_stand, fist_jump, fist_duck,                                                                                                                                                                                                                                                                 
         sword_stand, sword_jump, sword_duck
-
->>>>>>> Stashed changes
     }
     State currentState;
-    float tState;
+    float swordTempTimer;
+    float tempTimer;
 
     //sword
     bool isCollideWithSword;
     bool isArmed;
-<<<<<<< Updated upstream
-=======
     bool isFence;
     bool isPrepThrow;
     //0,1,2 for low, mid, high
     int swordPos = 0;
->>>>>>> Stashed changes
+
+    bool hasJumped;
+    bool isDivekicking;
 
     private void Start()
     {
@@ -76,27 +77,19 @@ public class Player : MonoBehaviour
         //S-Get player's starting position for now
         startPos = transform.position;
 
-        currentState = State.Idle;
+        currentState = State.fist_stand;
     }
 
     void Update()
     {
         UpdateState();
-<<<<<<< Updated upstream
-        tState -= Time.deltaTime;
-=======
+        //tState -= Time.deltaTime;
 
         //print(currentState);
         //print(hasJumped);
 
         //Animator setup
         ColorAnimation(playerSide, isArmed, spriteRenderer, playerColor);
-
-
-
-
-
->>>>>>> Stashed changes
     }
 
     void StartState(State newState)
@@ -105,13 +98,13 @@ public class Player : MonoBehaviour
         currentState = newState;
         switch (newState)
         {
+            /*
             case State.FistAttack:
                 //tState = fist attack animate time
                 break;
-<<<<<<< Updated upstream
             case State.DuckAttack:
                 //tState = duck attack animate time
-=======
+    */
             case State.fist_jump:
                 //animation
                 if (Input.GetKey(down))
@@ -123,7 +116,7 @@ public class Player : MonoBehaviour
                     myAnim.SetBool("isJump", true);
                     
                 }
->>>>>>> Stashed changes
+                /*
                 break;
             case State.AttackLow:
                 //tState = attack low animate time
@@ -131,10 +124,10 @@ public class Player : MonoBehaviour
             case State.AttackMid:
                 //tState = attack mid animate time
                 break;
-<<<<<<< Updated upstream
             case State.AttackHigh:
                 //tState = attack high animate time
-=======
+                */
+                break;
             case State.sword_jump:
                 //animation
                 if (Input.GetKey(down))
@@ -149,18 +142,19 @@ public class Player : MonoBehaviour
                 {
                     myAnim.SetBool("isJump", true);
                 }
->>>>>>> Stashed changes
                 break;
+                /*
             case State.SwordDuckAttack:
                 //tState = sword duck attack animate time
                 break;
+                */
         }
     }
     void UpdateState()
     {
         switch (currentState)
         {
-<<<<<<< Updated upstream
+            /*
             case State.Idle:
                 Move();
                 Jump();
@@ -169,7 +163,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKeyDown(lunge)) StartState(State.FistAttack);
                 if (Input.GetKeyDown(down)) StartState(State.Duck);
-=======
+            */
             case State.fist_stand:
                 Move(moveSpeed);
 
@@ -194,13 +188,12 @@ public class Player : MonoBehaviour
                 {
                     StartState(State.fist_duck);
                 }
->>>>>>> Stashed changes
                 break;
+                /*
             case State.FistAttack:
                 //codes here
                 //...
 
-<<<<<<< Updated upstream
                 if (tState <= 0) StartState(State.Idle);
                 break;
             case State.Duck:
@@ -210,7 +203,8 @@ public class Player : MonoBehaviour
                 //...
 
                 if (isCollideWithSword)
-=======
+
+                        */
 
             case State.fist_jump:
 
@@ -289,20 +283,20 @@ public class Player : MonoBehaviour
                 }
 
                 if (isCollideWithSword && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation"))
->>>>>>> Stashed changes
                 {
                     pickSword();
-                    StartState(State.LungeMid);
+                    //StartState(State.LungeMid);
                 }
-                if (!Input.GetKey(lunge)) StartState(State.Idle);
+                //if (!Input.GetKey(lunge)) StartState(State.Idle);
                 break;
+                /*
             case State.DuckAttack:
                 //codes here
                 //...
 
-<<<<<<< Updated upstream
                 if (tState <= 0) StartState(State.Duck);
-=======
+                break;
+                */
             case State.sword_stand:
                 Move(moveSpeed);
                 SwordAction();
@@ -391,16 +385,15 @@ public class Player : MonoBehaviour
                         myAnim.SetBool("isAttack", false);
                     }
                 }
-
->>>>>>> Stashed changes
                 break;
+
+        /*
             case State.SwordDuck:
                 //codes here
                 //...
 
-<<<<<<< Updated upstream
                 if (Input.GetKey(up)) StartState(State.LungeLow);
-=======
+        */
             case State.sword_jump:
 
                 tempTimer++;
@@ -471,17 +464,18 @@ public class Player : MonoBehaviour
                 }
 
 
->>>>>>> Stashed changes
+
                 break;
+                /*
             case State.LungeLow:
                 //codes here
                 //...
-
-<<<<<<< Updated upstream
                 if (Input.GetKey(up)) StartState(State.LungeMid);
                 if (Input.GetKey(down)) StartState(State.SwordDuck);
                 if (Input.GetKey(lunge)) StartState(State.AttackLow);
-=======
+
+                break;
+                */
             case State.sword_duck:
                 Move(moveSpeedDuck);
 
@@ -512,10 +506,8 @@ public class Player : MonoBehaviour
                 {
                     //new element-spinning sword function call up here
                 }
-
-
->>>>>>> Stashed changes
                 break;
+                /*
             case State.LungeMid:
                 //codes here
                 //...
@@ -563,14 +555,13 @@ public class Player : MonoBehaviour
 
                 if (tState <= 0) StartState(State.LungeHigh);
                     break;
+                    */
         }
     }
     void EndState(State currentState)
     {
         switch (currentState)
         {
-<<<<<<< Updated upstream
-=======
             case State.fist_stand:
                 //tState = fist attack time
                 break;
@@ -599,7 +590,6 @@ public class Player : MonoBehaviour
                 myAnim.SetBool("isDuck", false);
 
                 break;
->>>>>>> Stashed changes
 
         }
     }
@@ -612,29 +602,19 @@ public class Player : MonoBehaviour
         {
             direction = -1;
             tf.localScale = new Vector3(-1, 1, 1);
-<<<<<<< Updated upstream
-=======
             myAnim.SetBool("isRun", true);
->>>>>>> Stashed changes
 
         }
         else if (Input.GetKey(right))
         {
             direction = 1;
             tf.localScale = new Vector3(1, 1, 1);
-<<<<<<< Updated upstream
-=======
             myAnim.SetBool("isRun", true);
->>>>>>> Stashed changes
         }
         else
         {
             direction = 0;
-<<<<<<< Updated upstream
-
-=======
             myAnim.SetBool("isRun", false);
->>>>>>> Stashed changes
             if (playerSide == "Left")
             {
                 tf.localScale = new Vector3(1, 1, 1);
@@ -650,12 +630,10 @@ public class Player : MonoBehaviour
 
     private void Jump(float _jumpPower)
     {
-<<<<<<< Updated upstream
         if (Input.GetKeyDown(jump) && IsGrounded())
         {
             myAnim.SetBool("isJumping", true);
-            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-=======
+        }
         rb.velocity = new Vector2(rb.velocity.x, _jumpPower);
 
         hasJumped = true;
@@ -717,14 +695,11 @@ public class Player : MonoBehaviour
                 }
 
                 break;
->>>>>>> Stashed changes
         }
 
         if (IsGrounded() && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Jump_Animation"))
         {
-<<<<<<< Updated upstream
             myAnim.SetBool("isJumping", false);
-=======
             myAnim.SetInteger("swordPos", 2);
 
             if (Input.GetKeyDown(attack)) //throwing sword
@@ -765,7 +740,6 @@ public class Player : MonoBehaviour
         else if (isArmed)
         {
             myAnim.SetBool("isLegSweep", true);
->>>>>>> Stashed changes
         }
     }
 
@@ -775,7 +749,7 @@ public class Player : MonoBehaviour
         //code here
         //...
 
-        StartState(State.LungeMid);
+        //StartState(State.LungeMid);
     }
 
     private void disArmed()
@@ -784,7 +758,7 @@ public class Player : MonoBehaviour
         //create a sword, with initial state drop
         //...
 
-        StartState(State.Idle);
+        //StartState(State.Idle);
     }
 
     private void throwSword()
@@ -793,18 +767,9 @@ public class Player : MonoBehaviour
         //create a sword, with initial state rotation
         //...
 
-        StartState(State.Idle);
+        //StartState(State.Idle);
     }
 
-<<<<<<< Updated upstream
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
-=======
-    
-
->>>>>>> Stashed changes
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //fall out of scene 
