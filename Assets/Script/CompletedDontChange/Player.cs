@@ -113,13 +113,11 @@ public class Player : MonoBehaviour
         {
             if (!isArmed)
             {
-                print(1);
                 spriteRenderer.color = playerColor;             
             }
 
             if (isArmed)
             {
-                print(2);
                 spriteRenderer.color = Color.white;
             }
         }
@@ -127,12 +125,10 @@ public class Player : MonoBehaviour
         {
             if (!isArmed)
             {
-                print(3);
                 spriteRenderer.color = playerColor;
             }
             if (isArmed)
             {
-                print(4);
                 spriteRenderer.color = Color.white;
             }
         }
@@ -707,12 +703,17 @@ public class Player : MonoBehaviour
             isCollideWithSword = false;
         }
     }
-    void Die(Vector3 _respawnPos) 
+    public void Die(Vector3 _respawnPos) 
     {
         //write a timer here
         //...
         //if timer <= 0
         //respawn
         transform.position = _respawnPos;
+    }
+
+    public void DieStartPos() 
+    {
+        transform.position = startPos;
     }
 }
