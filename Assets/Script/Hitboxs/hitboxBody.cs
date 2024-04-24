@@ -57,7 +57,7 @@ public class hitboxBody : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        print("on trigger");
+        //print("on trigger");
         if (collision == fist)
         {
             hp -= 1f;

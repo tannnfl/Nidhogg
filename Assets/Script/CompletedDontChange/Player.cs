@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
     public bool hasDied;
+    public bool canRespawn;
+    public bool notInMap;
 
     //components
     Rigidbody2D rb;
@@ -75,6 +77,8 @@ public class Player : MonoBehaviour
     bool isPrepThrow;
     int swordPos = 0;
 
+    string transitionToMap;
+
     private void Start()
     {
         //components
@@ -89,10 +93,16 @@ public class Player : MonoBehaviour
         currentState = State.fist_stand;
         hasDied = false;
         isArmed = false;
+        canRespawn = true;
     }
 
     void Update()
     {
+        if (!canRespawn)
+        print(canRespawn);
+        //if (notInMap) transitionTo(transitionToMap);
+
+
         //tState -= Time.deltaTime;
         UpdateState();
         if (Input.GetKeyDown(attack))
@@ -779,6 +789,7 @@ public class Player : MonoBehaviour
 
         if (collision.CompareTag("Fallen"))
         {
+            //remember to implement new respawn pos based on the other player and isgrounded
             Die(startPos);
             hasDied = true;
         }
@@ -788,14 +799,26 @@ public class Player : MonoBehaviour
     {
         if ((collision.CompareTag("map0")))
         {
-            if((playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            if ((GameManager.currentGOState == GameManager.GOState.GORight)&& (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
                 Camera.main.GetComponent<GameManager>().changeScene("mapR1");
             }
         }
+
+        if ((collision.CompareTag("mapR1")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR2");
+            }
+        }
     }
 
-
+    /*
+    private void transitionTo(string map)
+    {
+            Camera.main.GetComponent<GameManager>().changeScene(map);
+    }*/
 
         public void Die(Vector3 _respawnPos) 
         {
@@ -803,9 +826,11 @@ public class Player : MonoBehaviour
             //...
             //if timer <= 0
             //respawn
+            if (canRespawn)
+            {
             transform.position = _respawnPos;
+            }     
             //death behaviors here, clear all accumulated values?
-            hasDied = false;
         }
 
          public void DieStartPos() 

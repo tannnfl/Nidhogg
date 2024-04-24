@@ -12,13 +12,13 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-
     }
 
     private void Update()
     {
 
     }
+
     public static bool IsActiveCamera(CinemachineVirtualCamera camera)
     {
         return camera == ActiveCamera;

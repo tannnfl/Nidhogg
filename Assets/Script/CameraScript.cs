@@ -86,12 +86,12 @@ public class CameraScript : MonoBehaviour
 
     private void OnEnable()
     {
-        CameraManager.Register(playerVirtualCam);
+        CameraManager.Register(GetComponent<CinemachineVirtualCamera>());
     }
 
     private void OnDisable()
     {
-        CameraManager.Unregister(playerVirtualCam);
+        CameraManager.Unregister(GetComponent<CinemachineVirtualCamera>());
     }
 
 }

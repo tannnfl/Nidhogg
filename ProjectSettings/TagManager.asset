@@ -10,6 +10,8 @@ TagManager:
   - sword
   - swordHitbox
   - map0
+  - UICamera
+  - mapR1
   layers:
   - Default
   - TransparentFX
