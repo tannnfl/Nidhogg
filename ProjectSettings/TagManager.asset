@@ -9,6 +9,7 @@ TagManager:
   - Fallen
   - sword
   - swordHitbox
+  - map0
   layers:
   - Default
   - TransparentFX

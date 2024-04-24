@@ -29,12 +29,14 @@ public class Player : MonoBehaviour
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
+    public bool hasDied;
 
     //components
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer spriteRenderer;
     Animator myAnim;
+    Camera cam;
 
     //movement tools
     int direction;
@@ -80,12 +82,12 @@ public class Player : MonoBehaviour
         tf = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         myAnim = GetComponent<Animator>();
-
+        
         //S-Get player's starting position for now
         startPos = transform.position;
 
         currentState = State.fist_stand;
-
+        hasDied = false;
         isArmed = false;
     }
 
@@ -567,7 +569,83 @@ public class Player : MonoBehaviour
             }
 
         }
-        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+
+        switch (GameManager.currentGOState)
+        {
+            case GameManager.GOState.GORight:
+                if(playerSide == "Left")
+                {
+                    if(!(isOutOfLeftCameraEdge(gameObject) && direction == -1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                else if (playerSide == "Right")
+                {
+                    if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                break;
+
+            case GameManager.GOState.GOLeft:
+                if (playerSide == "Left")
+                {
+                    if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                else if (playerSide == "Right")
+                {
+                    if (!(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                break;
+
+            case GameManager.GOState.NoGO:
+                if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                {
+                    rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(0,0);
+                }
+
+                break;
+        }
+
+
+
+
+  
+        
     }
 
     private void Jump(float _jumpPower)
@@ -690,10 +768,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Fallen")) 
-        {
-            Die(startPos);
-        }
         if (collision.CompareTag("sword"))
         {
             isCollideWithSword = true;
@@ -702,18 +776,74 @@ public class Player : MonoBehaviour
         {
             isCollideWithSword = false;
         }
-    }
-    public void Die(Vector3 _respawnPos) 
-    {
-        //write a timer here
-        //...
-        //if timer <= 0
-        //respawn
-        transform.position = _respawnPos;
+
+        if (collision.CompareTag("Fallen"))
+        {
+            Die(startPos);
+            hasDied = true;
+        }
     }
 
-    public void DieStartPos() 
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        transform.position = startPos;
+        if ((collision.CompareTag("map0")))
+        {
+            if((playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR1");
+            }
+        }
     }
+
+
+
+        public void Die(Vector3 _respawnPos) 
+        {
+            //write a timer here
+            //...
+            //if timer <= 0
+            //respawn
+            transform.position = _respawnPos;
+            //death behaviors here, clear all accumulated values?
+            hasDied = false;
+        }
+
+         public void DieStartPos() 
+        {
+            transform.position = startPos;
+        }
+   
+
+    public static bool isOutOfLeftCameraEdge(GameObject player)
+    {
+        float camLeftEdge = Camera.main.ViewportToWorldPoint(new Vector3(0.01f, 0, 0)).x;
+
+        if (player.transform.position.x < camLeftEdge)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool isOutOfRightCameraEdge(GameObject player)
+    {
+        float camRightEdge = Camera.main.ViewportToWorldPoint(new Vector3(0.99f, 0, 0)).x;
+
+        if (player.transform.position.x > camRightEdge)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    
+
+
+
 }
