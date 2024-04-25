@@ -29,12 +29,16 @@ public class Player : MonoBehaviour
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
+    public bool hasDied;
+    public bool canRespawn;
+    public bool notInMap;
 
     //components
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer spriteRenderer;
     Animator myAnim;
+    Camera cam;
 
     //movement tools
     int direction;
@@ -73,6 +77,8 @@ public class Player : MonoBehaviour
     bool isPrepThrow;
     int swordPos = 0;
 
+    string transitionToMap;
+
     private void Start()
     {
         //components
@@ -80,17 +86,23 @@ public class Player : MonoBehaviour
         tf = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         myAnim = GetComponent<Animator>();
-
+        
         //S-Get player's starting position for now
         startPos = transform.position;
 
         currentState = State.fist_stand;
-
+        hasDied = false;
         isArmed = false;
+        canRespawn = true;
     }
 
     void Update()
     {
+        if (!canRespawn)
+        print(canRespawn);
+        //if (notInMap) transitionTo(transitionToMap);
+
+
         //tState -= Time.deltaTime;
         UpdateState();
         if (Input.GetKeyDown(attack))
@@ -567,7 +579,83 @@ public class Player : MonoBehaviour
             }
 
         }
-        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+
+        switch (GameManager.currentGOState)
+        {
+            case GameManager.GOState.GORight:
+                if(playerSide == "Left")
+                {
+                    if(!(isOutOfLeftCameraEdge(gameObject) && direction == -1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                else if (playerSide == "Right")
+                {
+                    if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                break;
+
+            case GameManager.GOState.GOLeft:
+                if (playerSide == "Left")
+                {
+                    if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                else if (playerSide == "Right")
+                {
+                    if (!(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                    {
+                        rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                    }
+                    else
+                    {
+                        rb.velocity = new Vector2(0, 0);
+                    }
+                }
+                break;
+
+            case GameManager.GOState.NoGO:
+                if (!(isOutOfLeftCameraEdge(gameObject) && direction == -1)
+                    &&
+                     !(isOutOfRightCameraEdge(gameObject) && direction == 1))
+                {
+                    rb.velocity = new Vector2(direction * _moveSpeed, rb.velocity.y);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(0,0);
+                }
+
+                break;
+        }
+
+
+
+
+  
+        
     }
 
     private void Jump(float _jumpPower)
@@ -690,10 +778,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Fallen")) 
-        {
-            Die(startPos);
-        }
         if (collision.CompareTag("sword"))
         {
             isCollideWithSword = true;
@@ -702,18 +786,89 @@ public class Player : MonoBehaviour
         {
             isCollideWithSword = false;
         }
-    }
-    public void Die(Vector3 _respawnPos) 
-    {
-        //write a timer here
-        //...
-        //if timer <= 0
-        //respawn
-        transform.position = _respawnPos;
+
+        if (collision.CompareTag("Fallen"))
+        {
+            //remember to implement new respawn pos based on the other player and isgrounded
+            Die(startPos);
+            hasDied = true;
+        }
     }
 
-    public void DieStartPos() 
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        transform.position = startPos;
+        if ((collision.CompareTag("map0")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight)&& (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR1");
+            }
+        }
+
+        if ((collision.CompareTag("mapR1")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR2");
+            }
+        }
     }
+
+    /*
+    private void transitionTo(string map)
+    {
+            Camera.main.GetComponent<GameManager>().changeScene(map);
+    }*/
+
+        public void Die(Vector3 _respawnPos) 
+        {
+            //write a timer here
+            //...
+            //if timer <= 0
+            //respawn
+            if (canRespawn)
+            {
+            transform.position = _respawnPos;
+            }     
+            //death behaviors here, clear all accumulated values?
+        }
+
+         public void DieStartPos() 
+        {
+            transform.position = startPos;
+        }
+   
+
+    public static bool isOutOfLeftCameraEdge(GameObject player)
+    {
+        float camLeftEdge = Camera.main.ViewportToWorldPoint(new Vector3(0.01f, 0, 0)).x;
+
+        if (player.transform.position.x < camLeftEdge)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static bool isOutOfRightCameraEdge(GameObject player)
+    {
+        float camRightEdge = Camera.main.ViewportToWorldPoint(new Vector3(0.99f, 0, 0)).x;
+
+        if (player.transform.position.x > camRightEdge)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    
+
+
+
 }
