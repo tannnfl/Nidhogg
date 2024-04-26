@@ -19,6 +19,8 @@ public class hitboxBody : MonoBehaviour
     Collider2D swordAttackHigh;
 
     Collider2D disarm;
+
+    Animator myAnim;
     [SerializeField] Player player;
 
     
@@ -45,7 +47,7 @@ public class hitboxBody : MonoBehaviour
 
         disarm = GameObject.Find("hitboxDisarm").GetComponent<Collider2D>();
 
-
+        myAnim = player.GetComponent<Animator>();
         hp = maxHp;
     }
 
@@ -57,11 +59,21 @@ public class hitboxBody : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //print("on trigger");
-        if (collision == fist)
+        /*
+        if(collision.gameObject == fist.gameObject)
         {
-            hp -= 1f;
+            print("collide");
+        }
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Attack_Animation"))
+        {
+            print("fist animation");
+        }
+        */
+        
+        if ((collision.gameObject == fist.gameObject) && collision.gameObject.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Fist_Attack_Animation"))
+        {
             print("fist hit");
+            hp -= 1f;
         }
     }
 }
