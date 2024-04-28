@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6773110512016257331}
   - component: {fileID: 2844957649778422485}
   - component: {fileID: -5196955198708165833}
+  - component: {fileID: -3164195963787820460}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -128,6 +129,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  hasDied: 0
+  canRespawn: 0
+  notInMap: 0
 --- !u!50 &-6773110512016257331
 Rigidbody2D:
   serializedVersion: 4
@@ -213,6 +217,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 4637894217280372795}
+--- !u!95 &-3164195963787820460
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262545657250061343}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5fd2cb574587349f8971c6dd2d2109fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1220164754654768171
 GameObject:
   m_ObjectHideFlags: 0
