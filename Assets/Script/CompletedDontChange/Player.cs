@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
+    public static event Action<int> OnSwordPosChanged;
     public bool hasDied;
     public bool canRespawn;
     public bool notInMap;
@@ -98,8 +100,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        print(IsGrounded());
         if (!canRespawn)
-        print(canRespawn);
+        //print(canRespawn);
         //if (notInMap) transitionTo(transitionToMap);
 
 
@@ -325,11 +328,13 @@ public class Player : MonoBehaviour
                 if (Input.GetKeyDown(up) && swordPos < 1) 
                 {
                     swordPos += 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 //animation switch
@@ -732,7 +737,7 @@ public class Player : MonoBehaviour
     */
     private void pickSword()
     {
-        print(631);
+        //print(631);
         isArmed = true;
         myAnim.SetBool("isArmed", true);
         //code here
@@ -742,7 +747,7 @@ public class Player : MonoBehaviour
     }
      
 
-    private void disArmed()
+    public void disArmed()
     {
         isArmed = false;
         myAnim.SetBool("isArmed", false);
@@ -867,7 +872,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    
+    public int GetSwordPos()
+    {
+        return swordPos;
+    }
+
 
 
 
