@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
 
     [SerializeField] string playerSide;
+    public static event Action<int> OnSwordPosChanged;
 
     [SerializeField] Color playerColor;
 
@@ -322,14 +324,16 @@ public class Player : MonoBehaviour
                 }
                 */
 
-                if (Input.GetKeyDown(up) && swordPos < 1) 
+                if (Input.GetKeyDown(up) && swordPos < 1)
                 {
                     swordPos += 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 //animation switch
@@ -742,7 +746,7 @@ public class Player : MonoBehaviour
     }
      
 
-    private void disArmed()
+    public void disArmed()
     {
         isArmed = false;
         myAnim.SetBool("isArmed", false);
