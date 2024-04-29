@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour
                 {
                     if ((Player.isOutOfRightCameraEdge(LeftPlayer)) && (RightPlayer.GetComponent<Player>().canRespawn))
                     {
-                        print("Right Player should spawn");
                         RightPlayer.GetComponent<Player>().Die(RightPlayerRespawnPos);
                     }
 
@@ -129,7 +128,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (RightPlayer != null)
                 {
-                    if (Player.isOutOfLeftCameraEdge(RightPlayer))
+                    if (Player.isOutOfLeftCameraEdge(RightPlayer) && RightPlayer.GetComponent<Player>().canRespawn)
                     {
                         LeftPlayer.GetComponent<Player>().Die(LeftPlayerRespawnPos);
                     }
