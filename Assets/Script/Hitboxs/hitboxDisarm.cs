@@ -21,6 +21,7 @@ public class hitboxDisarm : MonoBehaviour
 
     }
 
+    /*
     void OnTriggerStay2D(Collider2D collision)
     {
         GameObject opponent = collision.gameObject.transform.parent.gameObject;
@@ -46,6 +47,7 @@ public class hitboxDisarm : MonoBehaviour
             }
         }
     }
+    */
 
 
 
@@ -61,6 +63,8 @@ public class hitboxDisarm : MonoBehaviour
     {
         return myAnim.GetCurrentAnimatorStateInfo(0).IsName(animName);
     }
+
+    
     void HandleSwordPosChanged(int newSwordPos, bool wasLow, bool wasMid, bool wasHigh)
     {
         print("HandleSwordPosChanged");

@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        print(IsGrounded());
+        //print(IsGrounded());
         if (!canRespawn)
         //print(canRespawn);
         //if (notInMap) transitionTo(transitionToMap);
