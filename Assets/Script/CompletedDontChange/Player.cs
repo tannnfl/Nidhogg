@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
 
     [SerializeField] string playerSide;
+    public static event Action<int> OnSwordPosChanged;
 
     [SerializeField] Color playerColor;
 
@@ -322,14 +324,16 @@ public class Player : MonoBehaviour
                 }
                 */
 
-                if (Input.GetKeyDown(up) && swordPos < 1) 
+                if (Input.GetKeyDown(up) && swordPos < 1)
                 {
                     swordPos += 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
+                    OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 //animation switch
@@ -742,7 +746,7 @@ public class Player : MonoBehaviour
     }
      
 
-    private void disArmed()
+    public void disArmed()
     {
         isArmed = false;
         myAnim.SetBool("isArmed", false);
@@ -790,7 +794,8 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Fallen"))
         {
             //remember to implement new respawn pos based on the other player and isgrounded
-            Die(startPos);
+
+            DieStartPos();
             hasDied = true;
         }
     }
@@ -807,11 +812,21 @@ public class Player : MonoBehaviour
 
         if ((collision.CompareTag("mapR1")))
         {
+            print("MapR1 Exit being called");
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
                 Camera.main.GetComponent<GameManager>().changeScene("mapR2");
             }
         }
+
+        if ((collision.CompareTag("mapR2")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR3");  
+            }
+        }
+
     }
 
     /*
@@ -835,8 +850,15 @@ public class Player : MonoBehaviour
 
          public void DieStartPos() 
         {
-            transform.position = startPos;
+        if (gameObject.CompareTag("RightPlayer"))
+        {
+            transform.position = GameManager.RightPlayerRespawnPos;
         }
+        if (gameObject.CompareTag("LeftPlayer"))
+        {
+            transform.position = GameManager.LeftPlayerRespawnPos;
+        }
+    }
    
 
     public static bool isOutOfLeftCameraEdge(GameObject player)

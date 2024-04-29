@@ -70,6 +70,7 @@ public class PlayerStateMachine : MonoBehaviour
         }
 
         //fist
+        /*
         if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Attack_Animation"))
         {
             fist.enabled = true;
@@ -78,6 +79,7 @@ public class PlayerStateMachine : MonoBehaviour
         {
             fist.enabled = false;
         }
+        */
 
         //if (state == "Fist_Divekick_Animation")
 
