@@ -790,7 +790,8 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("Fallen"))
         {
             //remember to implement new respawn pos based on the other player and isgrounded
-            Die(startPos);
+
+            DieStartPos();
             hasDied = true;
         }
     }
@@ -810,6 +811,22 @@ public class Player : MonoBehaviour
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
                 Camera.main.GetComponent<GameManager>().changeScene("mapR2");
+            }
+        }
+
+        if ((collision.CompareTag("mapR2")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR3");
+            }
+        }
+
+        if ((collision.CompareTag("mapR3")))
+        {
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR3");
             }
         }
     }
@@ -835,8 +852,15 @@ public class Player : MonoBehaviour
 
          public void DieStartPos() 
         {
-            transform.position = startPos;
+        if (gameObject.CompareTag("RightPlayer"))
+        {
+            transform.position = GameManager.RightPlayerRespawnPos;
         }
+        if (gameObject.CompareTag("LeftPlayer"))
+        {
+            transform.position = GameManager.LeftPlayerRespawnPos;
+        }
+    }
    
 
     public static bool isOutOfLeftCameraEdge(GameObject player)

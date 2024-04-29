@@ -12,6 +12,9 @@ TagManager:
   - map0
   - UICamera
   - mapR1
+  - mapR2
+  - mapR3
+  - mapR4
   layers:
   - Default
   - TransparentFX

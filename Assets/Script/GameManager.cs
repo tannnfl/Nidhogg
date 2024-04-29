@@ -65,8 +65,14 @@ public class GameManager : MonoBehaviour
 
                 break;
             case "mapR2":
+                mapLeftEdgeX = float.MaxValue;
+                mapRightEdgeX = float.MinValue;
+                checkForMapEdges(mapR2);
                 break;
             case "mapR3":
+                mapLeftEdgeX = float.MaxValue;
+                mapRightEdgeX = float.MinValue;
+                checkForMapEdges(mapR3);
                 break;
             case "mapL1":
                 break;
@@ -74,6 +80,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "mapL3":
                 break;
+
         }
     }
 
@@ -156,14 +163,26 @@ public class GameManager : MonoBehaviour
                 currentMap = "mapR1";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
                 //Need to have different spawn positions for different maps
-                LeftPlayer.transform.position = new Vector3(76, 7, 0);
-                RightPlayer.transform.position = new Vector3(105, 5, 0);
+                LeftPlayer.transform.position = new Vector3(70, 7, 0);
+                RightPlayer.transform.position = new Vector3(99, 5, 0);
                 CameraManager.SwitchCamera(camR1);
 
                 break;
             case "mapR2":
+                currentMap = "mapR2";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+                //Need to have different spawn positions for different maps
+                LeftPlayer.transform.position = new Vector3(140, 7, 0);
+                RightPlayer.transform.position = new Vector3(170, 5, 0);
+                CameraManager.SwitchCamera(camR2);
                 break;
             case "mapR3":
+                currentMap = "mapR3";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+                //Need to have different spawn positions for different maps
+                LeftPlayer.transform.position = new Vector3(238, 7, 0);
+                //remove player right at this point
+                CameraManager.SwitchCamera(camR3);
                 break;
             case "mapL1":
                 break;
