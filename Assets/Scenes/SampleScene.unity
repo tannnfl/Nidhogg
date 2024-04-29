@@ -202,8 +202,8 @@ Transform:
   m_GameObject: {fileID: 64696896}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 241.80078, y: 10.4, z: 0}
-  m_LocalScale: {x: 1.4407771, y: 2.305243, z: 2.5276792}
+  m_LocalPosition: {x: 222.3, y: 10.62, z: 0}
+  m_LocalScale: {x: 1.037345, y: 2.3744001, z: 2.5276792}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -770,8 +770,8 @@ Transform:
   m_GameObject: {fileID: 131589000}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 205.20078, y: 10.64, z: 0}
-  m_LocalScale: {x: 2.5966299, y: 2.3681262, z: 2.5966299}
+  m_LocalPosition: {x: 199.1, y: 10.64, z: 0}
+  m_LocalScale: {x: 1.6098845, y: 2.3681262, z: 2.5966299}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1210,7 +1210,7 @@ Transform:
   m_GameObject: {fileID: 357680581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 278.8, y: -13.7, z: 0}
+  m_LocalPosition: {x: 256.99924, y: -13.7, z: 0}
   m_LocalScale: {x: 1.1431998, y: 1.1431998, z: 1.1431998}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4290,7 +4290,7 @@ Transform:
   m_GameObject: {fileID: 1174014166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 273.90076, y: -8.3, z: 0}
+  m_LocalPosition: {x: 252.1, y: -8.3, z: 0}
   m_LocalScale: {x: 4.3131094, y: 4.820852, z: 2.8569705}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4322,7 +4322,7 @@ Transform:
   m_GameObject: {fileID: 1177691611}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: 0, z: 0}
+  m_LocalPosition: {x: 175, y: -10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4372,10 +4372,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 140.14346, y: 7.1835756}
-      - {x: 69.7295, y: 6.692051}
-      - {x: 69.67385, y: -15.003926}
-      - {x: 140.14346, y: -14.766584}
+    - - {x: 144.67209, y: 18.59856}
+      - {x: 69.03768, y: 18.452948}
+      - {x: 69.46911, y: -32.165943}
+      - {x: 144.87683, y: -32.22875}
   m_UseDelaunayMesh: 0
 --- !u!1 &1178908764
 GameObject:
@@ -4540,7 +4540,7 @@ Transform:
   m_GameObject: {fileID: 1187248752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 274.0008, y: -5.25, z: 0}
+  m_LocalPosition: {x: 252.20004, y: -5.25, z: 0}
   m_LocalScale: {x: 1.8880175, y: 2.9446054, z: 1.506966}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7248,8 +7248,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2066119624}
   - component: {fileID: 2066119627}
-  - component: {fileID: 2066119626}
   - component: {fileID: 2066119625}
+  - component: {fileID: 2066119628}
   m_Layer: 0
   m_Name: SceneCameraR3
   m_TagString: Untagged
@@ -7290,22 +7290,6 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 1177691613}
   m_ConfineScreenEdges: 1
   m_Damping: 0
---- !u!114 &2066119626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066119623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a8202e3bf2e421fb72221620a49cc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LeftPlayer: {fileID: 1785588492}
-  RightPlayer: {fileID: 823809725}
-  PlayerMidPoint: {fileID: 2000404803}
-  followTarget: {fileID: 2000404806}
 --- !u!114 &2066119627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7345,6 +7329,18 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1592616414}
+--- !u!114 &2066119628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066119623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5d15b40c8c1604fb3f31305b78bab0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2086309394
 PrefabInstance:
   m_ObjectHideFlags: 0
