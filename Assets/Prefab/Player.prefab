@@ -128,6 +128,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  hasDied: 0
+  canRespawn: 0
+  notInMap: 0
 --- !u!50 &-6773110512016257331
 Rigidbody2D:
   serializedVersion: 4
@@ -796,6 +799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1a23d80e6c649c69e8f54a5d83f347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 4637894217280372795}
 --- !u!1 &7032678322561760879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,4 +1164,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 4637894217280372795}
-  maxHp: 3

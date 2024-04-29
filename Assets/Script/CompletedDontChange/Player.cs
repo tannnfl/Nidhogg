@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using static GameManager;
 
 public class Player : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     [Header("ground check components")]
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
+    [SerializeField] LayerMask fallenLayer;
+
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
@@ -780,6 +783,12 @@ public class Player : MonoBehaviour
         return temp;
     }
 
+    public bool IsFallen()
+    {
+        bool temp = Physics2D.OverlapCircle(groundCheck.position, 0.4f, fallenLayer);
+        return temp;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("sword"))
@@ -852,11 +861,15 @@ public class Player : MonoBehaviour
         {
         if (gameObject.CompareTag("RightPlayer"))
         {
+            GameManager.currentGOState = GOState.GORight;
             transform.position = GameManager.RightPlayerRespawnPos;
+
         }
         if (gameObject.CompareTag("LeftPlayer"))
         {
+            GameManager.currentGOState = GOState.GOLeft;
             transform.position = GameManager.LeftPlayerRespawnPos;
+
         }
     }
    

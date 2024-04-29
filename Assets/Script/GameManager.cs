@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currentGOState = GOState.GORight;
+        currentGOState = GOState.NoGO;
         currentMap = "map0";
 
     }
