@@ -172,7 +172,6 @@ public class GameManager : MonoBehaviour
             case "mapR2":
                 currentMap = "mapR2";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
-                print("mapR2 being called");
                 //Need to have different spawn positions for different maps
                 LeftPlayer.transform.position = new Vector3(140, 7, 0);
                 RightPlayer.transform.position = new Vector3(170, 5, 0);
