@@ -808,6 +808,7 @@ public class Player : MonoBehaviour
 
         if ((collision.CompareTag("mapR1")))
         {
+            print("MapR1 Exit being called");
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
                 Camera.main.GetComponent<GameManager>().changeScene("mapR2");
@@ -818,17 +819,10 @@ public class Player : MonoBehaviour
         {
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
-                Camera.main.GetComponent<GameManager>().changeScene("mapR3");
+                Camera.main.GetComponent<GameManager>().changeScene("mapR3");  
             }
         }
 
-        if ((collision.CompareTag("mapR3")))
-        {
-            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
-            {
-                Camera.main.GetComponent<GameManager>().changeScene("mapR3");
-            }
-        }
     }
 
     /*

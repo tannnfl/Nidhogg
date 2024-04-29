@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
                 {
                     if ((Player.isOutOfRightCameraEdge(LeftPlayer)) && (RightPlayer.GetComponent<Player>().canRespawn))
                     {
+                        print("Right Player should spawn");
                         RightPlayer.GetComponent<Player>().Die(RightPlayerRespawnPos);
                     }
 
@@ -171,6 +172,7 @@ public class GameManager : MonoBehaviour
             case "mapR2":
                 currentMap = "mapR2";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
+                print("mapR2 being called");
                 //Need to have different spawn positions for different maps
                 LeftPlayer.transform.position = new Vector3(140, 7, 0);
                 RightPlayer.transform.position = new Vector3(170, 5, 0);
@@ -180,7 +182,7 @@ public class GameManager : MonoBehaviour
                 currentMap = "mapR3";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
                 //Need to have different spawn positions for different maps
-                LeftPlayer.transform.position = new Vector3(238, 7, 0);
+                LeftPlayer.transform.position = new Vector3(219, 7, 0);
                 //remove player right at this point
                 CameraManager.SwitchCamera(camR3);
                 break;
