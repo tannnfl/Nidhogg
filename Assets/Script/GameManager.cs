@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+           // print("see:" + (LeftPlayer.transform.position.x + 40 < mapRightEdgeX));
+
         UpdateScene();
         UpdateGOState();
         UpdateRespawnPos();
@@ -152,43 +154,118 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void changeScene(string mapNum)
+    public void changeScene(string mapNum, string enterSide)
     {
         switch (mapNum)
         {
             case "map0":
+
+                currentMap = "map0";
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(27, 2, 0);
+                    RightPlayer.transform.position = new Vector3(50, 6, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(-55, 6, 0);
+                    RightPlayer.transform.position = new Vector3(-26, 2, 0);
+                }
+
+                CameraManager.SwitchCamera(cam0);
+
                 break;
 
             case "mapR1":
+
                 currentMap = "mapR1";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
-                //Need to have different spawn positions for different maps
-                LeftPlayer.transform.position = new Vector3(70, 7, 0);
-                RightPlayer.transform.position = new Vector3(99, 5, 0);
+
+                if (enterSide == "enterFromRight")
+                {
+                    print("entered r1 from r2");
+                    LeftPlayer.transform.position = new Vector3(99, 3, 0);
+                    RightPlayer.transform.position = new Vector3(123, 6, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(70, 7, 0);
+                    RightPlayer.transform.position = new Vector3(99, 5, 0);
+                }
+
                 CameraManager.SwitchCamera(camR1);
 
                 break;
+
             case "mapR2":
+
                 currentMap = "mapR2";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
-                //Need to have different spawn positions for different maps
-                LeftPlayer.transform.position = new Vector3(140, 7, 0);
-                RightPlayer.transform.position = new Vector3(170, 5, 0);
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(140, 7, 0);
+                    RightPlayer.transform.position = new Vector3(170, 5, 0);
+                }
                 CameraManager.SwitchCamera(camR2);
+
                 break;
+
             case "mapR3":
+
                 currentMap = "mapR3";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
-                //Need to have different spawn positions for different maps
                 LeftPlayer.transform.position = new Vector3(219, 7, 0);
                 //remove player right at this point
                 CameraManager.SwitchCamera(camR3);
+
                 break;
+
             case "mapL1":
+
+                currentMap = "mapL1";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(-103.8f, 3.1f, 0);
+                    RightPlayer.transform.position = new Vector3(-78.6f, 4.4f, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(-131, 7, 0);
+                    RightPlayer.transform.position = new Vector3(-104, 4, 0);
+                }
+
+                CameraManager.SwitchCamera(camL1);
+
                 break;
+
             case "mapL2":
+
+                currentMap = "mapL2";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(-170, 7f, 0);
+                    RightPlayer.transform.position = new Vector3(-153, 7f, 0);
+                }
+                CameraManager.SwitchCamera(camL2);
+
                 break;
+
             case "mapL3":
+
+                currentMap = "mapL3";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+                RightPlayer.transform.position = new Vector3(-243f, 5f, 0);
+                CameraManager.SwitchCamera(camL3);
+
                 break;
         }
     }
@@ -203,6 +280,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            LeftPlayer.GetComponent<Player>().canRespawn = true;
             LeftPlayerRespawnPos.x = RightPlayer.transform.position.x + 20;
         }
 
@@ -213,6 +291,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            RightPlayer.GetComponent<Player>().canRespawn = true;
             RightPlayerRespawnPos.x = LeftPlayer.transform.position.x - 20;
         }
     }

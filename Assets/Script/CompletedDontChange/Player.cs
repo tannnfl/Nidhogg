@@ -103,8 +103,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!canRespawn)
-        print(canRespawn);
+        //if (!canRespawn)
+        //print(canRespawn);
         //if (notInMap) transitionTo(transitionToMap);
 
 
@@ -811,28 +811,79 @@ public class Player : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        //from mapL2
+        if ((collision.CompareTag("mapL2")))
+        {
+            //going right
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapL1", "enterFromLeft");
+            }
+
+            //goint left
+            if ((GameManager.currentGOState == GameManager.GOState.GOLeft) && (playerSide == "Right") && isOutOfLeftCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapL3", "enterFromRight");
+            }
+        }
+
+        //from mapL1
+        if ((collision.CompareTag("mapL1")))
+        {
+            //going right
+            if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("map0", "enterFromLeft");
+            }
+            //going left
+            else if ((GameManager.currentGOState == GameManager.GOState.GOLeft) && (playerSide == "Right") && isOutOfLeftCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapL2", "enterFromRight");
+            }
+        }
+
+        //starting at map0
         if ((collision.CompareTag("map0")))
         {
+            //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight)&& (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
-                Camera.main.GetComponent<GameManager>().changeScene("mapR1");
+                Camera.main.GetComponent<GameManager>().changeScene("mapR1", "enterFromLeft");
+            }
+            //going left
+            else if ((GameManager.currentGOState == GameManager.GOState.GOLeft) && (playerSide == "Right") && isOutOfLeftCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapL1", "enterFromRight");
             }
         }
 
+        //from mapR1
         if ((collision.CompareTag("mapR1")))
         {
-            print("MapR1 Exit being called");
+            //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
-                Camera.main.GetComponent<GameManager>().changeScene("mapR2");
+                Camera.main.GetComponent<GameManager>().changeScene("mapR2", "enterFromLeft");
+            }
+            //going left
+            else if ((GameManager.currentGOState == GameManager.GOState.GOLeft) && (playerSide == "Right") && isOutOfLeftCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("map0", "enterFromRight");
             }
         }
 
+        //from mapR2
         if ((collision.CompareTag("mapR2")))
         {
+            //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
             {
-                Camera.main.GetComponent<GameManager>().changeScene("mapR3");  
+                Camera.main.GetComponent<GameManager>().changeScene("mapR3", "enterFromLeft");  
+            }
+            //going left
+            else if ((GameManager.currentGOState == GameManager.GOState.GOLeft) && (playerSide == "Right") && isOutOfLeftCameraEdge(gameObject))
+            {
+                Camera.main.GetComponent<GameManager>().changeScene("mapR1", "enterFromRight");
             }
         }
 

@@ -16,6 +16,9 @@ TagManager:
   - mapR3
   - mapR4
   - noSpawn
+  - mapL1
+  - mapL2
+  - mapL3
   layers:
   - Default
   - TransparentFX
