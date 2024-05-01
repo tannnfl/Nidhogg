@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerStateMachine : MonoBehaviour
 {
     //general
+    public AudioSource runSnd, jumpSnd, punchSnd, lungeSnd;
+
     Collider2D body;
     EdgeCollider2D duckBody;
     Collider2D fist;
@@ -55,7 +57,7 @@ public class PlayerStateMachine : MonoBehaviour
         //state = myAnim.GetCurrentAnimatorStateInfo(0).nameHash.ToString();
 
         //duck
-        if(myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation")
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation")
             || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Legsweep_Animation")
             || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Legsweep_Animation")
             || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Duck_Animation"))
@@ -85,7 +87,34 @@ public class PlayerStateMachine : MonoBehaviour
 
 
         //Hitbox activate/ deactivate for each single hitbox
-        //Hitbox Position
+        //HitboxPosition
+
+
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Run_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Run_Animation"))
+        {
+            //GameManager.PlaySound(runSnd);
+        }
+
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Jump_Animation"))
+        {
+            GameManager.PlaySound(jumpSnd);
+        }
+
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Attack_Animation"))
+        {
+            GameManager.PlaySound(punchSnd);
+        }
+
+        if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos0_Attack_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos-1_Attack_Animation")
+            || myAnim.GetCurrentAnimatorStateInfo(0).IsName("Pos1_Attack_Animation"))
+        {
+            GameManager.PlaySound(lungeSnd);
+        }
+
+
         switch (state)
         {
         //fist
@@ -95,10 +124,11 @@ public class PlayerStateMachine : MonoBehaviour
 
                 break;
             case "Fist_Run_Animation":
-                //hbSwordHead. Deactivate
+                //PlaySound(runSnd);
                 break;
             case "Fist_Jump_Animation":
-                //hbSwordHead. Deactivate
+                //PlaySound(jumpSnd);
+                print("jump");
                 break;
             case "Fist_Divekick_Animation":
                 //...
@@ -140,4 +170,6 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
         }
     }
+
 }
+

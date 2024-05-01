@@ -343,7 +343,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    public static void PlaySound(AudioSource soundEffect)
+    {
+        if (soundEffect != null && !soundEffect.isPlaying)
+        {
+            soundEffect.Play();
+        }
+    }
 
     /* if need a respawn system that need to destroy the prefab?
     public void DestroyPlayer(GameObject player)

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] Color playerColor;
 
+    public AudioSource pickupswordSnd, SwordPosSnd, dieSnd;
+
     [Header("Control")]
     [SerializeField] KeyCode left;
     [SerializeField] KeyCode right;
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeedDuck;
     [SerializeField] float jumpPower;
     [SerializeField] float jumpPowerDuck;
+    [SerializeField] float divekickPower;
 
     [Header("ground check components")]
     [SerializeField] Transform groundCheck;
@@ -116,7 +119,18 @@ public class Player : MonoBehaviour
         UpdateState();
         if (Input.GetKeyDown(attack))
         {
-            if(!(
+
+
+            if (myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Jump_Animation")
+                        ||
+                        myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Jump_Animation"))
+            {
+                //add divekick behavior here
+                //rb.velocity = new Vector2(direction*moveSpeed*divekickPower,rb.velocity.x);
+            }
+
+
+            if (!(
                 (
                     myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation")
                     ||
@@ -125,11 +139,18 @@ public class Player : MonoBehaviour
                 &&
                 !IsGrounded()
                 ))
-            myAnim.SetBool("isAttacking", true);
-        }
-        else myAnim.SetBool("isAttacking", false);
+                myAnim.SetBool("isAttacking", true);
 
-        if (canExecute)
+        }
+
+        else
+        {
+            myAnim.SetBool("isAttacking", false);
+        }
+
+
+
+        if (canExecute)//&& player colliding with opponent's body
         {
             myAnim.SetBool("canExecute", true);
         }
@@ -251,16 +272,6 @@ public class Player : MonoBehaviour
                     Jump(jumpPower);
                 }
 
-                /*
-                //divekick
-                if (hasJumped && Input.GetKeyDown(attack) && (!Input.GetKey(down)))
-                {
-                    print(212);
-                        Divekick();
-                        isDivekicking = true;
-                }
-                */
-
                 //divekick landing
                 if (IsGrounded())
                 {
@@ -356,12 +367,14 @@ public class Player : MonoBehaviour
                 if (Input.GetKeyDown(up) && swordPos < 1)
                 {
                     swordPos += 1;
+                    GameManager.PlaySound(SwordPosSnd);
                     OnSwordPosChanged?.Invoke(swordPos);
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
+                    GameManager.PlaySound(SwordPosSnd);
                     OnSwordPosChanged?.Invoke(swordPos);
                 }
 
@@ -725,6 +738,7 @@ public class Player : MonoBehaviour
             {
                 case -1:
                     myAnim.SetInteger("swordPos", -1);
+                   
                     break;
 
                 case 0:
@@ -769,6 +783,7 @@ public class Player : MonoBehaviour
     private void pickSword()
     {
         print(631);
+        GameManager.PlaySound(pickupswordSnd);
         isArmed = true;
         myAnim.SetBool("isArmed", true);
         //code here
@@ -948,7 +963,8 @@ public class Player : MonoBehaviour
 
          public void DieStartPos() 
         {
-          hasDied = false;
+          hasDied = true;
+          GameManager.PlaySound(dieSnd);
           myAnim.SetBool("isDying", true);
           Invoke("Respawn", deathTime);
 
@@ -961,6 +977,7 @@ public class Player : MonoBehaviour
             GameManager.currentGOState = GOState.GORight;
             transform.position = GameManager.RightPlayerRespawnPos;
             myAnim.SetBool("isDying", false);
+            hasDied = false;
 
         }
         if (gameObject.CompareTag("LeftPlayer"))
@@ -968,6 +985,7 @@ public class Player : MonoBehaviour
             GameManager.currentGOState = GOState.GOLeft;
             transform.position = GameManager.LeftPlayerRespawnPos;
             myAnim.SetBool("isDying", false);
+            hasDied = false;
         }
     }
    
