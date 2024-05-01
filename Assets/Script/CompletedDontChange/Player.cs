@@ -31,12 +31,15 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] LayerMask fallenLayer;
 
+    [SerializeField] float deathTime;
+    [SerializeField] float faintTime;
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
     public bool hasDied;
     public bool canRespawn;
     public bool notInMap;
+    public bool canExecute;
 
     //components
     Rigidbody2D rb;
@@ -126,6 +129,15 @@ public class Player : MonoBehaviour
         }
         else myAnim.SetBool("isAttacking", false);
 
+        if (canExecute)
+        {
+            myAnim.SetBool("canExecute", true);
+        }
+        else
+        {
+            myAnim.SetBool("canExecute", false);
+        }
+        
         //Animator setup, if need different colored sword animations for different players
         if (playerSide == "Left")
         {
@@ -136,7 +148,8 @@ public class Player : MonoBehaviour
 
             if (isArmed)
             {
-                spriteRenderer.color = Color.white;
+                //spriteRenderer.color = Color.white;
+                spriteRenderer.color = playerColor;
             }
         }
         if (playerSide == "Right")
@@ -147,7 +160,8 @@ public class Player : MonoBehaviour
             }
             if (isArmed)
             {
-                spriteRenderer.color = Color.white;
+                //spriteRenderer.color = Color.white;
+                spriteRenderer.color = playerColor;
             }
         }
     }
@@ -804,18 +818,22 @@ public class Player : MonoBehaviour
         return temp;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("sword"))
+        if (other.gameObject.tag == "sword")
         {
             isCollideWithSword = true;
+            if (isArmed)
+            {
+                Destroy(other.gameObject);
+            }
         }
         else
         {
             isCollideWithSword = false;
         }
 
-        if (collision.CompareTag("Fallen"))
+        if (other.gameObject.tag == "Fallen")
         {
             //remember to implement new respawn pos based on the other player and isgrounded
 
@@ -904,18 +922,23 @@ public class Player : MonoBehaviour
 
     }
 
-    /*
-    private void transitionTo(string map)
-    {
-            Camera.main.GetComponent<GameManager>().changeScene(map);
-    }*/
-
-        public void Die(Vector3 _respawnPos) 
+         public void Faint()
         {
-            //write a timer here
-            //...
-            //if timer <= 0
-            //respawn
+        print("faint test");
+            myAnim.SetBool("isFainting", true);
+            Invoke("FaintEnd", faintTime);     
+        }
+
+        private void FaintEnd()
+        {
+            if (!hasDied)
+            {
+                myAnim.SetBool("isFainting", false);
+            }
+        }
+
+        public void ImmediateRespawn(Vector3 _respawnPos) 
+        {
             if (canRespawn)
             {
             transform.position = _respawnPos;
@@ -925,17 +948,26 @@ public class Player : MonoBehaviour
 
          public void DieStartPos() 
         {
-        if (gameObject.CompareTag("RightPlayer"))
+          hasDied = false;
+          myAnim.SetBool("isDying", true);
+          Invoke("Respawn", deathTime);
+
+        }
+
+       private void Respawn()
+    {
+         if (gameObject.CompareTag("RightPlayer"))
         {
             GameManager.currentGOState = GOState.GORight;
             transform.position = GameManager.RightPlayerRespawnPos;
+            myAnim.SetBool("isDying", false);
 
         }
         if (gameObject.CompareTag("LeftPlayer"))
         {
             GameManager.currentGOState = GOState.GOLeft;
             transform.position = GameManager.LeftPlayerRespawnPos;
-
+            myAnim.SetBool("isDying", false);
         }
     }
    

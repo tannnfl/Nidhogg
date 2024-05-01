@@ -656,6 +656,14 @@ PrefabInstance:
       value: 103
       objectReference: {fileID: 0}
     - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
+      propertyPath: deathTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
+      propertyPath: faintTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: jumpPower
       value: 30
       objectReference: {fileID: 0}
@@ -2853,7 +2861,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.5699463, y: -0.00000047683716}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2864,7 +2872,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_Size: {x: 13.299791, y: 2.6145964}
   m_EdgeRadius: 0
 --- !u!1 &547626181
 GameObject:
@@ -3125,6 +3133,14 @@ PrefabInstance:
     - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: attack
       value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
+      propertyPath: deathTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
+      propertyPath: faintTime
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4637894217280372795, guid: 4751cdc81fd124d638596e25fb6d47d8, type: 3}
       propertyPath: jumpPower

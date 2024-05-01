@@ -43,12 +43,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-           // print("see:" + (LeftPlayer.transform.position.x + 40 < mapRightEdgeX));
 
         UpdateScene();
         UpdateGOState();
         UpdateRespawnPos();
 
+        //determine player facing direction
         if(LeftPlayer.transform.position.x > RightPlayer.transform.position.x)
         {
             RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
@@ -58,6 +58,25 @@ public class GameManager : MonoBehaviour
         {
             RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(-1, 1, 1);
             LeftPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
+        }
+
+        //determine if player can execute opponent
+        if (RightPlayer.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Faint_Animation"))
+        {
+            LeftPlayer.GetComponent<Player>().canExecute = true;
+        }
+        else
+        {
+            LeftPlayer.GetComponent<Player>().canExecute = false;
+        }
+
+        if (LeftPlayer.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Faint_Animation"))
+        {
+            RightPlayer.GetComponent<Player>().canExecute = true;
+        }
+        else
+        {
+            RightPlayer.GetComponent<Player>().canExecute = false;
         }
 
     }
@@ -115,7 +134,7 @@ public class GameManager : MonoBehaviour
                 {
                     if ((Player.isOutOfRightCameraEdge(LeftPlayer)) && (RightPlayer.GetComponent<Player>().canRespawn))
                     {
-                        RightPlayer.GetComponent<Player>().Die(RightPlayerRespawnPos);
+                        RightPlayer.GetComponent<Player>().ImmediateRespawn(RightPlayerRespawnPos);
                     }
 
                 }
@@ -144,7 +163,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (Player.isOutOfLeftCameraEdge(RightPlayer) && RightPlayer.GetComponent<Player>().canRespawn)
                     {
-                        LeftPlayer.GetComponent<Player>().Die(LeftPlayerRespawnPos);
+                        LeftPlayer.GetComponent<Player>().ImmediateRespawn(LeftPlayerRespawnPos);
                     }
                 }
 
