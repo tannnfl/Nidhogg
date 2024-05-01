@@ -83,10 +83,11 @@ public class Player : MonoBehaviour
     int swordPos = 0;
 
     string transitionToMap;
+    public Vector3 defaultFacing;
 
     private void Start()
     {
-        //components
+        //componentsd
         rb = GetComponent<Rigidbody2D>();
         tf = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -281,7 +282,18 @@ public class Player : MonoBehaviour
                 break;
 
             case State.fist_duck:
-                Move(moveSpeedDuck);
+                if (!(Input.GetKey(left) || Input.GetKey(right)))
+                {
+                    Move(moveSpeedDuck);
+                    myAnim.SetBool("isDucking", true);
+                    myAnim.SetBool("isRolling", false);
+                }
+                else
+                {
+                    Move(moveSpeed);
+                    myAnim.SetBool("isRolling", true);
+                }
+
                 Jump(jumpPowerDuck);
 
                 //change the sprite and collider for the player here
@@ -479,10 +491,19 @@ public class Player : MonoBehaviour
                 break;
 
             case State.sword_duck:
-                Move(moveSpeedDuck);
-                Jump(jumpPowerDuck);
+                if (!(Input.GetKey(left) || Input.GetKey(right)))
+                {
+                    Move(moveSpeedDuck);
+                    myAnim.SetBool("isDucking", true);
+                    myAnim.SetBool("isRolling", false);
+                }
+                else
+                {
+                    Move(moveSpeed);
+                    myAnim.SetBool("isRolling", true);
+                }
 
-                myAnim.SetBool("isDucking", true);
+                Jump(jumpPowerDuck);
 
                 if (!Input.GetKey(down))
                 {
@@ -576,15 +597,9 @@ public class Player : MonoBehaviour
         {
             direction = 0;
             myAnim.SetBool("isRunning", false);
-            if (playerSide == "Left")
-            {
-                tf.localScale = new Vector3(1, 1, 1);
-            }
-            else if (playerSide == "Right")
-            {
-                tf.localScale = new Vector3(-1, 1, 1);
-            }
-
+            
+            tf.localScale = defaultFacing;
+            
         }
 
         switch (GameManager.currentGOState)

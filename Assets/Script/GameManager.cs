@@ -48,6 +48,18 @@ public class GameManager : MonoBehaviour
         UpdateScene();
         UpdateGOState();
         UpdateRespawnPos();
+
+        if(LeftPlayer.transform.position.x > RightPlayer.transform.position.x)
+        {
+            RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
+            LeftPlayer.GetComponent<Player>().defaultFacing = new Vector3(-1, 1, 1);
+        }
+        else if (LeftPlayer.transform.position.x < RightPlayer.transform.position.x)
+        {
+            RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(-1, 1, 1);
+            LeftPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
+        }
+
     }
 
     private void UpdateScene()
