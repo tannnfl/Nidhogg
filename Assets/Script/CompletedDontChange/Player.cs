@@ -125,8 +125,26 @@ public class Player : MonoBehaviour
                         ||
                         myAnim.GetCurrentAnimatorStateInfo(0).IsName("Sword_Jump_Animation"))
             {
+                //print(rb.velocity);
+                //print("GAP");
+                //isDivekicking = true;
+
+                //float forceMagnitude = 30f;
+                //rb.AddForce(new Vector2(direction * forceMagnitude, 0f), ForceMode2D.Force);
+                //print(rb.velocity);
                 //add divekick behavior here
                 //rb.velocity = new Vector2(direction*moveSpeed*divekickPower,rb.velocity.x);
+                //According to the facingd direction, add an instant force pushing player towards that direction
+                //using add force to embody physic(the curve of fallen down)
+                float newX = 1f;
+                if (direction == 1 || direction == -1) { tf.position = new Vector3(tf.position.x + direction*newX, tf.position.y, tf.position.z); }
+                else if (direction == 0) 
+                {
+                    if (playerSide == "Left"){ tf.position = new Vector3(tf.position.x + newX, tf.position.y, tf.position.z); }
+                    if (playerSide == "Right") { tf.position = new Vector3(tf.position.x - newX, tf.position.y, tf.position.z); }
+
+                }
+
             }
 
 
@@ -640,7 +658,7 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        rb.velocity = new Vector2(0, 0);
+                        if (isDivekicking == false) { rb.velocity = new Vector2(0, 0); }
                     }
                 }
                 else if (playerSide == "Right")
@@ -653,7 +671,7 @@ public class Player : MonoBehaviour
                     }
                     else
                     {
-                        rb.velocity = new Vector2(0, 0);
+                        if (isDivekicking == false){ rb.velocity = new Vector2(0, 0); }
                     }
                 }
                 break;
@@ -763,14 +781,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*
-    private void Divekick()
-    {
-            myAnim.SetBool("isAttacking", true);
+    
 
-            //divekick attack and movement code here
-    }
-    */
+    
     /*
     private void Legsweep()
     {
