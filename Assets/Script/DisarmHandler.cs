@@ -44,6 +44,8 @@ public class DisarmHandler
         }
 
         Debug.Log(2);
+        if (player2Hitbox == null) return;
+        if (player1Hitbox == null) return;
         (bool low, bool mid, bool high) isPlayer1In2 = player2Hitbox.isStapped();
         (bool low, bool mid, bool high) isPlayer2In1 = player1Hitbox.isStapped();
 

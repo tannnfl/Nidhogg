@@ -118,13 +118,21 @@ public class Player : MonoBehaviour
         //print(canRespawn);
         //if (notInMap) transitionTo(transitionToMap);
 
-
+        
         //tState -= Time.deltaTime;
         UpdateState();
-        if (Input.GetKey(down))
+        if (!isArmed || (isArmed && swordPos == -1))
         {
-            myAnim.SetBool("isDucking", true);
+            if (Input.GetKey(down))
+            {
+                myAnim.SetBool("isDucking", true);
+            }
+            else
+            {
+                myAnim.SetBool("isDucking", false);
+            }
         }
+        
         if (Input.GetKeyDown(attack))
         {
 

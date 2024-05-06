@@ -46,7 +46,9 @@ public class hitboxDisarm : MonoBehaviour
         if (collision.gameObject.name == "Player1") return;
         if (collision.gameObject.name == "Player2") return;
 
+
         GameObject opponent = collision.gameObject.transform.parent.gameObject;
+        if (opponent == null) return;
 
         if (opponent.name == "Player1" || opponent.name == "Player2")
         {

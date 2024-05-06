@@ -21,8 +21,9 @@ public class hitboxBody : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (fistedCheck(collision.gameObject, player)
-            || swordedCheck(collision.gameObject, player)) { player.DieStartPos(); }
+        if (
+             swordedCheck(collision.gameObject, player)) { player.DieStartPos(); }
+        if (fistedCheck(collision.gameObject, player)) player.Faint();
         if(divekickedCheck(collision.gameObject, player)) { player.disArmed(); }
     }
 
