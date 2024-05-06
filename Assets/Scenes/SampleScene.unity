@@ -1564,6 +1564,56 @@ Transform:
   - {fileID: 2036050562}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &229562248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 288954706}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &229562251
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229562248}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1 &236580277
 GameObject:
   m_ObjectHideFlags: 3
@@ -1930,6 +1980,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8556d79a44bf94146b6ffd5d014cd847, type: 3}
+--- !u!1 &270335820 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 410336080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &270335823
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270335820}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1001 &288954706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1982,10 +2082,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 229562251}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1001 &311716096
 PrefabInstance:
@@ -2056,6 +2163,56 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b8bc6fa2675c4f4e931a3b8f443b918, type: 3}
+--- !u!1 &336692869 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1982334509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &336692872
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336692869}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1 &357680581
 GameObject:
   m_ObjectHideFlags: 0
@@ -2299,6 +2456,56 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 17.29, y: 3.3592448}
   m_EdgeRadius: 0
+--- !u!1 &409560235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1466303392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &409560238
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409560235}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1001 &410336080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2351,10 +2558,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 270335823}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1001 &419742935
 PrefabInstance:
@@ -6225,10 +6439,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1806004695}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1 &1108339244
 GameObject:
@@ -7545,10 +7766,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1661005271}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!4 &1207245267 stripped
 Transform:
@@ -9263,10 +9491,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 409560238}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1 &1479167358
 GameObject:
@@ -9563,10 +9798,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1555427678}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1 &1548988579
 GameObject:
@@ -9675,6 +9917,56 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 569946181}
+--- !u!1 &1555427675 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1501158961}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1555427678
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555427675}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1 &1560176737
 GameObject:
   m_ObjectHideFlags: 0
@@ -9847,6 +10139,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1661005268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1194724355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1661005271
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661005268}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1 &1729328858
 GameObject:
   m_ObjectHideFlags: 0
@@ -10705,6 +11047,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1806004692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1092567901}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1806004695
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806004692}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1001 &1855783506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10757,10 +11149,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1939400590}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1 &1887507964
 GameObject:
@@ -11009,6 +11408,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1939400587 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+  m_PrefabInstance: {fileID: 1855783506}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &1939400590
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939400587}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 11.0199995, y: 1.9306575}
+    newSize: {x: 11.0199995, y: 1.9306575}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 11.0199995, y: 1.9306575}
+  m_EdgeRadius: 0
 --- !u!1001 &1957104458
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11304,10 +11753,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_OnGround (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      propertyPath: m_TagString
+      value: sword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 336692872}
   m_SourcePrefab: {fileID: 100100000, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
 --- !u!1 &2000404803
 GameObject:

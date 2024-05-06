@@ -907,6 +907,7 @@ public class Player : MonoBehaviour
         if (other.gameObject.tag == "End")
         {
             GameEnding.Setup(playerSide);
+            Destroy(gameObject);
             Time.timeScale = 0f;
         }
     }
