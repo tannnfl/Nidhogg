@@ -9,7 +9,7 @@ public class GameEnding : MonoBehaviour
     [SerializeField] Sprite Ending_Orange;
     public void Setup(string playerSide) 
     {
-        var image = GetComponent<Image>();
+        var image = GetComponent<SpriteRenderer>();
         
         if (playerSide == "Left")
         {

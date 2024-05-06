@@ -141,8 +141,8 @@ public class Player : MonoBehaviour
                 if (direction == 1 || direction == -1) { tf.position = new Vector3(tf.position.x + direction*newX, tf.position.y, tf.position.z); }
                 else if (direction == 0) 
                 {
-                    if (playerSide == "Left"){ tf.position = new Vector3(tf.position.x + newX, tf.position.y, tf.position.z); }
-                    if (playerSide == "Right") { tf.position = new Vector3(tf.position.x - newX, tf.position.y, tf.position.z); }
+                    if (playerSide == "Left"){ tf.position = new Vector3(tf.position.x + newX, tf.position.y - newX, tf.position.z); }
+                    if (playerSide == "Right") { tf.position = new Vector3(tf.position.x - newX, tf.position.y - newX, tf.position.z); }
 
                 }
 
