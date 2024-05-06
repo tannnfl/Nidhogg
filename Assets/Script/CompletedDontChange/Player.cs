@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] Color playerColor;
 
     public AudioSource pickupswordSnd, SwordPosSnd, dieSnd;
+    public GameEnding GameEnding;
 
     [Header("Control")]
     [SerializeField] KeyCode left;
@@ -867,6 +868,12 @@ public class Player : MonoBehaviour
 
             DieStartPos();
             hasDied = true;
+        }
+
+        if (other.gameObject.tag == "End")
+        {
+            GameEnding.Setup(playerSide);
+            Time.timeScale = 0f;
         }
     }
 

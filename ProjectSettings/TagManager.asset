@@ -19,6 +19,7 @@ TagManager:
   - mapL1
   - mapL2
   - mapL3
+  - End
   layers:
   - Default
   - TransparentFX
