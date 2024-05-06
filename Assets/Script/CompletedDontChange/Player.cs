@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] string playerSide;
     public static event Action<int> OnSwordPosChanged;
+    public static event Action<int> OnSwordCollide;
 
     [SerializeField] Color playerColor;
 
@@ -38,6 +39,7 @@ public class Player : MonoBehaviour
     [SerializeField] float deathTime;
     [SerializeField] float faintTime;
     [SerializeField] int playerIndex;
+    public GameObject prefabSword;
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
@@ -119,6 +121,10 @@ public class Player : MonoBehaviour
 
         //tState -= Time.deltaTime;
         UpdateState();
+        if (Input.GetKey(down))
+        {
+            myAnim.SetBool("isDucking", true);
+        }
         if (Input.GetKeyDown(attack))
         {
 
@@ -654,7 +660,10 @@ public class Player : MonoBehaviour
             tf.localScale = defaultFacing;
             
         }
+        if (isArmed)
+        {
 
+        }
         switch (GameManager.currentGOState)
         {
             case GameManager.GOState.GORight:
@@ -812,6 +821,7 @@ public class Player : MonoBehaviour
         GameManager.PlaySound(pickupswordSnd);
         isArmed = true;
         myAnim.SetBool("isArmed", true);
+        
         //code here
         //...
 
@@ -823,6 +833,10 @@ public class Player : MonoBehaviour
     {
         isArmed = false;
         myAnim.SetBool("isArmed", false);
+        Vector3 temp = new Vector3(0, 1.4f, 0);
+        Instantiate(prefabSword, groundCheck.position + temp, groundCheck.rotation);
+        print("disarmed");
+
         //create a sword, with initial state drop
         //...
 

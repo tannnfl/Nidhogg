@@ -117,6 +117,7 @@ MonoBehaviour:
   pickupswordSnd: {fileID: 0}
   SwordPosSnd: {fileID: 0}
   dieSnd: {fileID: 0}
+  GameEnding: {fileID: 0}
   left: 0
   right: 0
   up: 0
@@ -137,10 +138,13 @@ MonoBehaviour:
     m_Bits: 0
   deathTime: 0
   faintTime: 0
+  playerIndex: 0
+  prefabSword: {fileID: 1726649620186163910, guid: d57b2c8b2577946238644affcfb5b828, type: 3}
   hasDied: 0
   canRespawn: 0
   notInMap: 0
   canExecute: 0
+  myAnim: {fileID: 0}
   defaultFacing: {x: 0, y: 0, z: 0}
 --- !u!50 &-6773110512016257331
 Rigidbody2D:
@@ -789,7 +793,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.772018, y: -1.342041}
+  m_Offset: {x: -2.2629461, y: -1.342041}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -800,7 +804,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2489483, y: 2.4096742}
+  m_Size: {x: 3.2670915, y: 2.4096742}
   m_EdgeRadius: 0
 --- !u!114 &5260692907365122796
 MonoBehaviour:

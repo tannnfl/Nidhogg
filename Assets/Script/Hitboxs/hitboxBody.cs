@@ -23,6 +23,7 @@ public class hitboxBody : MonoBehaviour
     {
         if (fistedCheck(collision.gameObject, player)
             || swordedCheck(collision.gameObject, player)) { player.DieStartPos(); }
+        if(divekickedCheck(collision.gameObject, player)) { player.disArmed(); }
     }
 
     //get hit check

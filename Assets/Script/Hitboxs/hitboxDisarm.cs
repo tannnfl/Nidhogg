@@ -38,6 +38,8 @@ public class hitboxDisarm : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
+        if (divekickedCheck(collision.gameObject, player)) { player.disArmed(); }
+
         // CHANGE: 这里会抛出 NullPointerException，底下collision.gameobject.transform.parent sometimes don't exist
         // For instance, Map0_CamConfiner, Player1, and Player2 may not have parent object
         if (collision.gameObject.name == "Map0_CamConfiner") return;
@@ -67,7 +69,11 @@ public class hitboxDisarm : MonoBehaviour
         }
     }
 
-
+    public static bool divekickedCheck(GameObject opp, Player pl)
+    {
+        return (opp.name == "hitboxDiveKick"
+            && (isAnim(opp, "Fist_Divekick_Animation") || isAnim(opp, "Sword_Divekick_Animation")));
+    }
 
 
     private static bool isAnim(GameObject obj, string animName)
