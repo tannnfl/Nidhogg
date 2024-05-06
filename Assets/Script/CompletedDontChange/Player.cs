@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] string playerSide;
     public static event Action<int> OnSwordPosChanged;
+    public static event Action<int> OnSwordCollide;
 
     [SerializeField] Color playerColor;
 
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] float deathTime;
     [SerializeField] float faintTime;
+    [SerializeField] int playerIndex;
+    public GameObject prefabSword;
 
     //S-Variables for checkpoint spawning and death
     Vector2 startPos;
@@ -49,7 +52,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     Transform tf;
     SpriteRenderer spriteRenderer;
-    Animator myAnim;
+    public Animator myAnim;
     Camera cam;
 
     //movement tools
@@ -118,6 +121,10 @@ public class Player : MonoBehaviour
 
         //tState -= Time.deltaTime;
         UpdateState();
+        if (Input.GetKey(down))
+        {
+            myAnim.SetBool("isDucking", true);
+        }
         if (Input.GetKeyDown(attack))
         {
 
@@ -383,61 +390,67 @@ public class Player : MonoBehaviour
                 }
                 */
 
+                bool temp = false;
                 if (Input.GetKeyDown(up) && swordPos < 1)
                 {
                     swordPos += 1;
                     GameManager.PlaySound(SwordPosSnd);
-                    OnSwordPosChanged?.Invoke(swordPos);
+                    temp = true;
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
                     GameManager.PlaySound(SwordPosSnd);
-                    OnSwordPosChanged?.Invoke(swordPos);
+                    temp = true;
                 }
 
                 //animation switch
-                switch (swordPos)
+                if (temp)
                 {
-                    case -1:
-                        myAnim.SetInteger("swordPos", -1);
+                    switch (swordPos)
+                    {
+                        case -1:
+                            myAnim.SetInteger("swordPos", -1);
 
-                        swordTempTimer++;
+                            swordTempTimer++;
 
-                        if (Input.GetKey(down) && swordTempTimer > 60)
-                        {
+                            if (Input.GetKey(down) && swordTempTimer > 60)
+                            {
+                                swordTempTimer = 0;
+                                StartState(State.sword_duck);
+                            }
+
+                            break;
+
+                        case 0:
                             swordTempTimer = 0;
-                            StartState(State.sword_duck);
-                        }
+                            myAnim.SetInteger("swordPos", 0);
+                            break;
 
-                        break;
+                        case 1:
+                            myAnim.SetInteger("swordPos", 1);
 
-                    case 0:
-                        swordTempTimer = 0;
-                        myAnim.SetInteger("swordPos", 0);
-                        break;
+                            swordTempTimer++;
 
-                    case 1:
-                        myAnim.SetInteger("swordPos", 1);
-
-                        swordTempTimer++;
-
-                        if(swordTempTimer > 60)
-                        {
-                            if (Input.GetKey(up))
+                            if (swordTempTimer > 60)
                             {
-                                isPrepThrow = true;
-                                myAnim.SetInteger("swordPos", 2);
-                                //swordTempTimer = 0;
+                                if (Input.GetKey(up))
+                                {
+                                    isPrepThrow = true;
+                                    myAnim.SetInteger("swordPos", 2);
+                                    //swordTempTimer = 0;
+                                }
+                                else
+                                {
+                                    isPrepThrow = false;
+                                }
                             }
-                            else
-                            {
-                                isPrepThrow = false;
-                            }
-                        }
-   
-                        break;
+
+                            break;
+                    }
+                    Invoke(nameof(invokeOnSwordPosChange), 0.15f);
+
                 }
 
                 if (Input.GetKeyDown(attack) && !isPrepThrow)
@@ -647,7 +660,10 @@ public class Player : MonoBehaviour
             tf.localScale = defaultFacing;
             
         }
+        if (isArmed)
+        {
 
+        }
         switch (GameManager.currentGOState)
         {
             case GameManager.GOState.GORight:
@@ -726,6 +742,11 @@ public class Player : MonoBehaviour
         
     }
 
+    private void invokeOnSwordPosChange()
+    {
+        OnSwordPosChanged?.Invoke(playerIndex);
+    }
+
     private void Jump(float _jumpPower)
     {
         if (IsGrounded() && Input.GetKeyDown(jump))
@@ -800,6 +821,7 @@ public class Player : MonoBehaviour
         GameManager.PlaySound(pickupswordSnd);
         isArmed = true;
         myAnim.SetBool("isArmed", true);
+        
         //code here
         //...
 
@@ -811,6 +833,10 @@ public class Player : MonoBehaviour
     {
         isArmed = false;
         myAnim.SetBool("isArmed", false);
+        Vector3 temp = new Vector3(0, 1.4f, 0);
+        Instantiate(prefabSword, groundCheck.position + temp, groundCheck.rotation);
+        print("disarmed");
+
         //create a sword, with initial state drop
         //...
 
@@ -1038,8 +1064,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    
-
-
-
+    public int GetSwordPos()
+    {
+        return swordPos;
+    }
 }
