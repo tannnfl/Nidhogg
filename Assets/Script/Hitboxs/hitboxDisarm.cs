@@ -9,10 +9,17 @@ public class hitboxDisarm : MonoBehaviour
     int mySwordPos;
     int oldSwordPos;
 
+    bool isStappedByLow;
+    bool isStappedByMid;
+    bool isStappedByHigh;
+
+    DisarmHandler dh;
+
     // Start is called before the first frame update
     void Start()
     {
         myAnim = player.GetComponent<Animator>();
+        dh = new DisarmHandler();
     }
 
     // Update is called once per frame
@@ -21,39 +28,51 @@ public class hitboxDisarm : MonoBehaviour
 
     }
 
-    /*
+
+
+   public (bool, bool, bool) isStapped()
+    {
+        return (isStappedByLow, isStappedByMid, isStappedByHigh);
+    }
+
+
     void OnTriggerStay2D(Collider2D collision)
     {
+        // CHANGE: 这里会抛出 NullPointerException，底下collision.gameobject.transform.parent sometimes don't exist
+        // For instance, Map0_CamConfiner, Player1, and Player2 may not have parent object
+        if (collision.gameObject.name == "Map0_CamConfiner") return;
+        if (collision.gameObject.name == "Player1") return;
+        if (collision.gameObject.name == "Player2") return;
+
         GameObject opponent = collision.gameObject.transform.parent.gameObject;
 
         if (opponent.name == "Player1" || opponent.name == "Player2")
         {
             //print(opponent);
-            bool oldPosLow = (collision.gameObject.name == "hitboxSwordAttack-1" && (isAnim(opponent, "Pos-1_Attack_animation") || isAnim(opponent, "Pos-1_Fence_Animation")));
-            bool oldPosMid = (collision.gameObject.name == "hitboxSwordAttack0" && (isAnim(opponent, "Pos0_Attack_animation") || isAnim(opponent, "Pos0_Fence_Animation")));
-            bool oldPosHigh = (collision.gameObject.name == "hitboxSwordAttack1" && (isAnim(opponent, "Pos1_Attack_animation") || isAnim(opponent, "Pos1_Fence_Animation")));
+
             //print("low: " + oldPosLow + ", mid: " + oldPosMid + ", high" + oldPosHigh);
             //print(collision.gameObject.name == "hitboxSwordAttack-1" +" "+ isAnim(opponent, "Pos-1_Attack_animation") + " " + isAnim(opponent, "Pos-1_Fence_Animation"));
             //print(collision.gameObject.name == "hitboxSwordAttack0" + " " + isAnim(opponent, "Pos0_Attack_animation") + " " + isAnim(opponent, "Pos0_Fence_Animation"));
             //print(collision.gameObject.name == "hitboxSwordAttack1" + " " + isAnim(opponent, "Pos1_Attack_animation") + " " + isAnim(opponent, "Pos1_Fence_Animation"));
-            if (oldPosLow || oldPosMid || oldPosHigh)
+            if (collision.name == "hitboxSwordAttack0" || collision.name == "hitboxSwordAttack1" || collision.name == "hitboxSwordAttack-1") return;
+            if (getOldSwordPos(collision, opponent) != -2)
             {
                 Player player = opponent.GetComponent<Player>();
                 //print(player);
                 if (player != null)
                 {
-                    HandleSwordPosChanged(player.GetSwordPos(), oldPosLow, oldPosMid, oldPosHigh);
+                    HandleSwordPosChanged(player.GetSwordPos(), collision, opponent);
                 }
             }
         }
     }
-    */
+
 
 
 
     private static bool isAnim(GameObject obj, string animName)
     {
-        return obj.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(animName);
+        return obj.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(animName);
     }
     private static bool isAnimBool(GameObject obj, string boolName)
     {
@@ -63,17 +82,25 @@ public class hitboxDisarm : MonoBehaviour
     {
         return myAnim.GetCurrentAnimatorStateInfo(0).IsName(animName);
     }
+    private int getOldSwordPos(Collider2D collision, GameObject opponent)
+    {
+        //
+        bool temp2 = isAnim(opponent, "Pos1_Fence_Animation");
+        bool oldPosLow = (collision.gameObject.name == "hitboxSword-1" && isAnim(opponent, "Pos-1_Fence_Animation"));
+        bool oldPosMid = (collision.gameObject.name == "hitboxSword0" && isAnim(opponent, "Pos0_Fence_Animation"));
+        bool oldPosHigh = (collision.gameObject.name == "hitboxSword1" && isAnim(opponent, "Pos1_Fence_Animation"));
+        if (oldPosHigh) return 1;
+        else if (oldPosMid) return 0;
+        else if (oldPosLow) return -1;
+        else return -2;
+    }
 
-
-    void HandleSwordPosChanged(int newSwordPos, bool wasLow, bool wasMid, bool wasHigh)
+    void HandleSwordPosChanged(int newSwordPos, Collider2D collision, GameObject opponent)
     {
         print("HandleSwordPosChanged");
         //get opponent sword position before change
-        if (wasLow) oldSwordPos = -1;
-        else if (wasMid) oldSwordPos = 0;
-        else if (wasHigh) oldSwordPos = 1;
+        oldSwordPos = getOldSwordPos(collision, opponent);
         //get my sword position
-
         if (isAnim("Pos-1_Attack_animation") || isAnim("Pos-1_Fence_Animation"))
         {
             mySwordPos = -1;
@@ -113,4 +140,24 @@ public class hitboxDisarm : MonoBehaviour
         }
 
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "hitboxSword-1")
+            isStappedByLow = true;
+        if (collision.gameObject.name == "hitboxSword0")
+            isStappedByMid = true;
+        if (collision.gameObject.name == "hitboxSword1")
+            isStappedByHigh = true;
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "hitboxSword-1")
+            isStappedByLow = false;
+        if (collision.gameObject.name == "hitboxSword0")
+            isStappedByMid = false;
+        if (collision.gameObject.name == "hitboxSword1")
+            isStappedByHigh = false;
+    }
+
 }

@@ -114,6 +114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSide: 
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+  pickupswordSnd: {fileID: 0}
+  SwordPosSnd: {fileID: 0}
+  dieSnd: {fileID: 0}
   left: 0
   right: 0
   up: 0
@@ -124,13 +127,21 @@ MonoBehaviour:
   moveSpeedDuck: 3
   jumpPower: 20
   jumpPowerDuck: 15
+  divekickPower: 0
   groundCheck: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  fallenLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  deathTime: 0
+  faintTime: 0
   hasDied: 0
   canRespawn: 0
   notInMap: 0
+  canExecute: 0
+  defaultFacing: {x: 0, y: 0, z: 0}
 --- !u!50 &-6773110512016257331
 Rigidbody2D:
   serializedVersion: 4
@@ -215,6 +226,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d770b5ab0004614a5c188da7a4e0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  runSnd: {fileID: 0}
+  jumpSnd: {fileID: 0}
+  punchSnd: {fileID: 0}
+  lungeSnd: {fileID: 0}
   player: {fileID: 4637894217280372795}
 --- !u!1 &1220164754654768171
 GameObject:
@@ -774,7 +789,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.8239546, y: -1.342041}
+  m_Offset: {x: -2.772018, y: -1.342041}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -785,7 +800,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1450748, y: 2.4096742}
+  m_Size: {x: 2.2489483, y: 2.4096742}
   m_EdgeRadius: 0
 --- !u!114 &5260692907365122796
 MonoBehaviour:
