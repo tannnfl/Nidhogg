@@ -84,16 +84,19 @@ public class Player : MonoBehaviour
     bool hasJumped = false;
     bool isDivekicking = false;
     int swordTempTimer = 0;
+    bool startSwordTimer = false;
 
     //sword
     bool isCollideWithSword;
-    bool isArmed;
+    public bool isArmed;
     bool isFence;
     bool isPrepThrow;
     int swordPos = 0;
 
     string transitionToMap;
     public Vector3 defaultFacing;
+
+    int tempCoolDownTimer;
 
     private void Start()
     {
@@ -114,13 +117,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //if (!canRespawn)
-        //print(canRespawn);
-        //if (notInMap) transitionTo(transitionToMap);
-
-        
-        //tState -= Time.deltaTime;
+        print("cooldown" + tempCoolDownTimer);
         UpdateState();
+
+        triggerTimer();
+
         if (!isArmed || (isArmed && swordPos == -1))
         {
             if (Input.GetKey(down))
@@ -221,6 +222,42 @@ public class Player : MonoBehaviour
         }
     }
 
+    //priority detection, before updatestate
+   private void OnTriggerStay2D(Collider2D other)
+    {
+
+        if (other.gameObject.tag == "sword")
+        {
+            if (!isArmed && (myAnim.GetBool("isRolling")
+                        ||
+                        myAnim.GetBool("isDucking")))
+            {
+                print(playerSide + " " + isCollideWithSword);
+                isCollideWithSword = true;
+                Destroy(other.gameObject);
+            }
+            else if (isArmed)
+            {
+                //isCollideWithSword = false;
+            }
+        }
+        else
+        {
+            if (tempCoolDownTimer > 40)
+            {
+                isCollideWithSword = false;
+                tempCoolDownTimer = 0;
+            }
+        }
+    }
+
+    private void triggerTimer()
+    {
+        if (isCollideWithSword) { tempCoolDownTimer++; }
+        else { tempCoolDownTimer = 0;  }
+
+    } 
+
     void StartState(State newState)
     {
         EndState(currentState);
@@ -269,6 +306,7 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
     void UpdateState()
     {
         switch (currentState)
@@ -281,7 +319,7 @@ public class Player : MonoBehaviour
                     StartState(State.fist_jump);
                 }
 
-                if (Input.GetKeyDown(attack)) 
+                if (Input.GetKeyDown(attack))
                 {
                     //FistAttack();
                 }
@@ -291,7 +329,7 @@ public class Player : MonoBehaviour
                     myAnim.SetBool("isAttacking", false);
                 }
 
-                if (Input.GetKey(down)) 
+                if (Input.GetKey(down))
                 {
                     StartState(State.fist_duck);
                 }
@@ -358,7 +396,7 @@ public class Player : MonoBehaviour
                 //change the sprite and collider for the player here
                 myAnim.SetBool("isDucking", true);
 
-                if (!Input.GetKey(down)) 
+                if (!Input.GetKey(down))
                 {
                     StartState(State.fist_stand);
                 }
@@ -378,12 +416,17 @@ public class Player : MonoBehaviour
                     myAnim.SetBool("isAttacking", false);
                 }
 
-                if (isCollideWithSword && myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Duck_Animation"))
+                print("in duck state call" + playerSide + " " + isCollideWithSword);
+
+                if (isCollideWithSword)
                 {
-                    pickSword();
-                    //if I'm still ducking, won't dirrectly enter lunge state
-                    StartState(State.sword_duck);
+                   pickSword();
+                   //if I'm still ducking, won't dirrectly enter lunge state
+                   StartState(State.sword_duck);
                 }
+
+    
+                
                 break;
 
             case State.sword_stand:
@@ -398,24 +441,24 @@ public class Player : MonoBehaviour
                 }
                 */
 
-                bool temp = false;
+                //bool temp = false;
                 if (Input.GetKeyDown(up) && swordPos < 1)
                 {
                     swordPos += 1;
                     GameManager.PlaySound(SwordPosSnd);
-                    temp = true;
+                    //temp = true;
                 }
 
                 if (Input.GetKeyDown(down) && swordPos > -1)
                 {
                     swordPos -= 1;
                     GameManager.PlaySound(SwordPosSnd);
-                    temp = true;
+                    //temp = true;
                 }
 
                 //animation switch
-                if (temp)
-                {
+                //if (temp)
+                //{
                     switch (swordPos)
                     {
                         case -1:
@@ -437,6 +480,7 @@ public class Player : MonoBehaviour
                             break;
 
                         case 1:
+                            
                             myAnim.SetInteger("swordPos", 1);
 
                             swordTempTimer++;
@@ -447,16 +491,16 @@ public class Player : MonoBehaviour
                                 {
                                     isPrepThrow = true;
                                     myAnim.SetInteger("swordPos", 2);
-                                    //swordTempTimer = 0;
                                 }
                                 else
                                 {
                                     isPrepThrow = false;
                                 }
-                            }
+                             }
 
                             break;
-                    }
+
+
                     Invoke(nameof(invokeOnSwordPosChange), 0.15f);
 
                 }
@@ -743,12 +787,9 @@ public class Player : MonoBehaviour
                 break;
         }
 
-
-
-
-  
         
     }
+
 
     private void invokeOnSwordPosChange()
     {
@@ -881,19 +922,19 @@ public class Player : MonoBehaviour
         return temp;
     }
 
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.gameObject.tag == "sword")
         {
-            isCollideWithSword = true;
-            if (isArmed)
+            if (!isArmed &&
+                myAnim.GetCurrentAnimatorStateInfo(0).IsName("Fist_Roll_Animation"))
             {
+               // print(playerSide + " " + isCollideWithSword);
+                isCollideWithSword = true;
                 Destroy(other.gameObject);
             }
-        }
-        else
-        {
-            isCollideWithSword = false;
         }
 
         if (other.gameObject.tag == "Fallen")
@@ -912,10 +953,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+
+        private void OnTriggerExit2D(Collider2D other)
     {
-        //from mapL2
-        if ((collision.CompareTag("mapL2")))
+
+            //from mapL2
+            if (other.gameObject.tag == "mapL2")
         {
             //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
@@ -931,7 +974,7 @@ public class Player : MonoBehaviour
         }
 
         //from mapL1
-        if ((collision.CompareTag("mapL1")))
+        if (other.gameObject.tag == "mapL1")
         {
             //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
@@ -946,7 +989,7 @@ public class Player : MonoBehaviour
         }
 
         //starting at map0
-        if ((collision.CompareTag("map0")))
+        if (other.gameObject.tag == "map0")
         {
             //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight)&& (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
@@ -961,7 +1004,7 @@ public class Player : MonoBehaviour
         }
 
         //from mapR1
-        if ((collision.CompareTag("mapR1")))
+        if (other.gameObject.tag == "mapR1")
         {
             //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))
@@ -976,7 +1019,7 @@ public class Player : MonoBehaviour
         }
 
         //from mapR2
-        if ((collision.CompareTag("mapR2")))
+        if (other.gameObject.tag == "mapR2")
         {
             //going right
             if ((GameManager.currentGOState == GameManager.GOState.GORight) && (playerSide == "Left") && isOutOfRightCameraEdge(gameObject))

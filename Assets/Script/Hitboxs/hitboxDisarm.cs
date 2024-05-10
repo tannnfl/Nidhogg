@@ -123,28 +123,31 @@ public class hitboxDisarm : MonoBehaviour
         }
 
         //handle disarm scenarios:
-        switch (mySwordPos)
+        if (player.isArmed)
         {
-            case -1:
-                //up
-                if (oldSwordPos == -1 && newSwordPos == 0) player.disArmed();
-                //down
-                if (oldSwordPos == 0 && newSwordPos == -1) player.disArmed();
-                break;
-            case 0:
-                //up
-                if (oldSwordPos == -1 && newSwordPos == 0) player.disArmed();
-                if (oldSwordPos == 0 && newSwordPos == 1) player.disArmed();
-                //down
-                if (oldSwordPos == 0 && newSwordPos == -1) player.disArmed();
-                if (oldSwordPos == 1 && newSwordPos == 0) player.disArmed();
-                break;
-            case 1:
-                //up
-                if (oldSwordPos == 0 && newSwordPos == 1) player.disArmed();
-                //down
-                if (oldSwordPos == 1 && newSwordPos == 0) player.disArmed();
-                break;
+            switch (mySwordPos)
+            {
+                case -1:
+                    //up
+                    if (oldSwordPos == -1 && newSwordPos == 0) player.disArmed();
+                    //down
+                    if (oldSwordPos == 0 && newSwordPos == -1) player.disArmed();
+                    break;
+                case 0:
+                    //up
+                    if (oldSwordPos == -1 && newSwordPos == 0) player.disArmed();
+                    if (oldSwordPos == 0 && newSwordPos == 1) player.disArmed();
+                    //down
+                    if (oldSwordPos == 0 && newSwordPos == -1) player.disArmed();
+                    if (oldSwordPos == 1 && newSwordPos == 0) player.disArmed();
+                    break;
+                case 1:
+                    //up
+                    if (oldSwordPos == 0 && newSwordPos == 1) player.disArmed();
+                    //down
+                    if (oldSwordPos == 1 && newSwordPos == 0) player.disArmed();
+                    break;
+            }
         }
 
     }
