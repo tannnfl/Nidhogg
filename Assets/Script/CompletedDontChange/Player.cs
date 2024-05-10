@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static GameManager;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -949,7 +950,8 @@ public class Player : MonoBehaviour
         {
             GameEnding.Setup(playerSide);
             Destroy(gameObject);
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
+            SceneManager.LoadScene("SampleScene");
         }
     }
 
