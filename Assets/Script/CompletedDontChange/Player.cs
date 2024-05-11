@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using static GameManager;
 using UnityEngine.SceneManagement;
+using UnityEngine.WSA;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class Player : MonoBehaviour
 
     public AudioSource pickupswordSnd, SwordPosSnd, dieSnd;
     public GameEnding GameEnding;
+    public ThrowedSword ThrowSword;
+    public Transform Launch_Offset;
+
 
     [Header("Control")]
     [SerializeField] KeyCode left;
@@ -57,6 +61,7 @@ public class Player : MonoBehaviour
     Camera cam;
 
     //movement tools
+    int original_direction;
     int direction;
 
     //state machine
@@ -106,7 +111,7 @@ public class Player : MonoBehaviour
         tf = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         myAnim = GetComponent<Animator>();
-        
+        original_direction = direction;
         //S-Get player's starting position for now
         startPos = transform.position;
 
@@ -518,8 +523,11 @@ public class Player : MonoBehaviour
                 if (isPrepThrow && Input.GetKeyDown(attack))
                 {
                         myAnim.SetBool("isAttacking", true);
-                        //call throw sword function
-                        disArmed();
+                    //call throw sword function
+    
+                        Instantiate(ThrowSword, Launch_Offset.position, Launch_Offset.rotation);
+                        
+
                         StartState(State.fist_stand);
        
                     if (Input.GetKeyUp(attack))
@@ -946,6 +954,8 @@ public class Player : MonoBehaviour
             hasDied = true;
         }
 
+
+
         if (other.gameObject.tag == "End")
         {
             GameEnding.Setup(playerSide);
@@ -1069,6 +1079,8 @@ public class Player : MonoBehaviour
           Invoke("Respawn", deathTime);
 
         }
+
+
 
        private void Respawn()
     {
