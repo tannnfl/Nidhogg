@@ -249,6 +249,7 @@ public class GameManager : MonoBehaviour
 
                 currentMap = "mapR3";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
+                RightPlayer.transform.position = new Vector3(0, -270, 0);
                 LeftPlayer.transform.position = new Vector3(219, 7, 0);
                 //remove player right at this point
                 CameraManager.SwitchCamera(camR3);
@@ -262,8 +263,8 @@ public class GameManager : MonoBehaviour
 
                 if (enterSide == "enterFromRight")
                 {
-                    LeftPlayer.transform.position = new Vector3(-103.8f, 3.1f, 0);
-                    RightPlayer.transform.position = new Vector3(-78.6f, 4.4f, 0);
+                    LeftPlayer.transform.position = new Vector3(-133.8f, 3.1f, 0);
+                    RightPlayer.transform.position = new Vector3(-100.6f, 4.4f, 0);
                 }
 
                 if (enterSide == "enterFromLeft")
