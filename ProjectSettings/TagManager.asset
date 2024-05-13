@@ -21,6 +21,7 @@ TagManager:
   - mapL3
   - End
   - ThrowedSword
+  - flyingSword
   layers:
   - Default
   - TransparentFX

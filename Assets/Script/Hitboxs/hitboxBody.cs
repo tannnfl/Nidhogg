@@ -24,7 +24,14 @@ public class hitboxBody : MonoBehaviour
         if (
              swordedCheck(collision.gameObject, player)) { player.DieStartPos(); }
         if (fistedCheck(collision.gameObject, player)) player.Faint();
-        if(divekickedCheck(collision.gameObject, player)) { player.disArmed(); }
+        if(divekickedCheck(collision.gameObject, player)) { player.DieStartPos(); }
+
+        if (collision.CompareTag("flyingSword"))
+        {
+            Destroy(collision.gameObject);
+            player.DropSword();
+            player.DieStartPos();
+        }
     }
 
     //get hit check

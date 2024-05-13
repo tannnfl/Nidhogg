@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ThrowedSword : MonoBehaviour
 {
-    public float Speed = 4.5f;
+    float Speed = 15f;
     private void Update()
     {
-
-            transform.position += -transform.right * Time.deltaTime * Speed;
-
+        transform.position += -transform.right * Time.deltaTime * Speed;
+        this.tag = "flyingSword";
     }
+    
 
 }

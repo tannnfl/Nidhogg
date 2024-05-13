@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using static GameManager;
 using UnityEngine.SceneManagement;
-using UnityEngine.WSA;
 
 public class Player : MonoBehaviour
 {
@@ -128,6 +127,15 @@ public class Player : MonoBehaviour
 
         triggerTimer();
 
+        if (!Input.GetKey(down))
+        {
+            myAnim.SetBool("isDucking", false);
+            myAnim.SetBool("isRolling", false);
+        }
+
+        if (isArmed) myAnim.SetBool("isArmed", true);
+        else myAnim.SetBool("isArmed", false);
+
         if (!isArmed || (isArmed && swordPos == -1))
         {
             if (Input.GetKey(down))
@@ -240,6 +248,7 @@ public class Player : MonoBehaviour
             {
                 print(playerSide + " " + isCollideWithSword);
                 isCollideWithSword = true;
+                pickSword();
                 Destroy(other.gameObject);
             }
             else if (isArmed)
@@ -900,11 +909,16 @@ public class Player : MonoBehaviour
 
         // StartState(State.Idle);
     }
+    public void DropSword()
+    {
+        Vector3 temp = new Vector3(0, 1.4f, 0);
+        Instantiate(prefabSword, groundCheck.position + temp, groundCheck.rotation);
+    }
 
     private void throwSword()
     {
         isArmed = false;
-        disArmed();
+        myAnim.SetBool("isArmed", false);
         //create a sword, with initial state rotation
         //...
         //StartState(State.Idle);
