@@ -12,6 +12,15 @@ TagManager:
   - map0
   - UICamera
   - mapR1
+  - mapR2
+  - mapR3
+  - mapR4
+  - noSpawn
+  - mapL1
+  - mapL2
+  - mapL3
+  - End
+  - ThrowedSword
   layers:
   - Default
   - TransparentFX
@@ -22,7 +31,7 @@ TagManager:
   - Ground
   - PlayerLeft
   - PlayerRight
-  - 
+  - Fallen
   - 
   - 
   - 

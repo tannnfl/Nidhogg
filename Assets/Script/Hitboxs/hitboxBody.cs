@@ -4,64 +4,67 @@ using UnityEngine;
 
 public class hitboxBody : MonoBehaviour
 {
-    //general
-    Collider2D body;
-    Collider2D fist;
-    Collider2D divekick;
-    Collider2D legsweep;
-
-    Collider2D swordLow;
-    Collider2D swordMid;
-    Collider2D swordHigh;
-
-    Collider2D swordAttackLow;
-    Collider2D swordAttackMid;
-    Collider2D swordAttackHigh;
-
-    Collider2D disarm;
+    Animator myAnim;
     [SerializeField] Player player;
 
-    
-    //special
-    float hp;
-    [SerializeField] float maxHp;
-    
 
     // Start is called before the first frame update
     void Start()
     {
-        body = GameObject.Find("hitboxBody").GetComponent<Collider2D>();
-        fist = GameObject.Find("hitboxFist").GetComponent<Collider2D>();
-        divekick = GameObject.Find("hitboxDiveKick").GetComponent<Collider2D>();
-        legsweep = GameObject.Find("hitboxLegsweep").GetComponent<Collider2D>();
-
-        swordLow = GameObject.Find("hitboxSword-1").GetComponent<Collider2D>();
-        swordMid = GameObject.Find("hitboxSword0").GetComponent<Collider2D>();
-        swordHigh = GameObject.Find("hitboxSword1").GetComponent<Collider2D>();
-
-        swordAttackLow = GameObject.Find("hitboxSwordAttack-1").GetComponent<Collider2D>();
-        swordAttackMid = GameObject.Find("hitboxSwordAttack0").GetComponent<Collider2D>();
-        swordAttackHigh = GameObject.Find("hitboxSwordAttack1").GetComponent<Collider2D>();
-
-        disarm = GameObject.Find("hitboxDisarm").GetComponent<Collider2D>();
-
-
-        hp = maxHp;
+        myAnim = player.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hp == 0) player.DieStartPos();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //print("on trigger");
-        if (collision == fist)
-        {
-            hp -= 1f;
-            print("fist hit");
+        if (
+             swordedCheck(collision.gameObject, player)) { player.DieStartPos(); }
+        if (fistedCheck(collision.gameObject, player)) player.Faint();
+        if(divekickedCheck(collision.gameObject, player)) { player.disArmed(); }
+    }
+
+    //get hit check
+    public static bool fistedCheck(GameObject opp,Player pl) {
+        return (opp.name == "hitboxFist"
+            && isAnim(opp.gameObject, "Fist_Attack_Animation"));
+    }
+    public static bool divekickedCheck(GameObject opp, Player pl)
+    {
+        return (opp.name == "hitboxDiveKick"
+            && (isAnim(opp, "Fist_Divekick_Animation") || isAnim(opp, "Sword_Divekick_Animation")));
+    }
+    public static bool LegsweepedCheck(GameObject opp, Player pl)
+    {
+        return (opp.name == "hitboxLegsweep"
+            && (isAnim(opp, "Fist_Legsweep_Animation") || isAnim(opp, "Sword_Legsweep_Animation")));
         }
+    public static bool swordedCheck(GameObject opp, Player pl)
+    {
+        return
+            (
+            opp.name == "hitboxSword-1" && (
+             isAnim(opp, "Pos-1_Attack_Animation")
+             || isAnim(opp, "Pos-1_Fence_Animation"))
+            )
+            //sword mid
+            || (
+            opp.name == "hitboxSword0" && (
+            isAnim(opp, "Pos0_Attack_Animation")
+            || isAnim(opp, "Pos0_Fence_Animation"))
+            )
+            //sword high
+            || (
+            opp.name == "hitboxSword1" && (
+            isAnim(opp, "Pos1_Attack_Animation")
+            || isAnim(opp, "Pos1_Fence_Animation"))
+            );
+    }
+    public static bool isAnim(GameObject obj, string animName)
+    {
+        return obj.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsName(animName);
     }
 }

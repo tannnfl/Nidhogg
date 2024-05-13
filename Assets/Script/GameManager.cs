@@ -36,16 +36,49 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        currentGOState = GOState.GORight;
+        currentGOState = GOState.NoGO;
         currentMap = "map0";
 
     }
 
     private void Update()
     {
+
         UpdateScene();
         UpdateGOState();
         UpdateRespawnPos();
+
+        //determine player facing direction
+        if(LeftPlayer.transform.position.x > RightPlayer.transform.position.x)
+        {
+            RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
+            LeftPlayer.GetComponent<Player>().defaultFacing = new Vector3(-1, 1, 1);
+        }
+        else if (LeftPlayer.transform.position.x < RightPlayer.transform.position.x)
+        {
+            RightPlayer.GetComponent<Player>().defaultFacing = new Vector3(-1, 1, 1);
+            LeftPlayer.GetComponent<Player>().defaultFacing = new Vector3(1, 1, 1);
+        }
+
+        //determine if player can execute opponent
+        if (RightPlayer.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Faint_Animation"))
+        {
+            LeftPlayer.GetComponent<Player>().canExecute = true;
+        }
+        else
+        {
+            LeftPlayer.GetComponent<Player>().canExecute = false;
+        }
+
+        if (LeftPlayer.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Faint_Animation"))
+        {
+            RightPlayer.GetComponent<Player>().canExecute = true;
+        }
+        else
+        {
+            RightPlayer.GetComponent<Player>().canExecute = false;
+        }
+
     }
 
     private void UpdateScene()
@@ -65,8 +98,14 @@ public class GameManager : MonoBehaviour
 
                 break;
             case "mapR2":
+                mapLeftEdgeX = float.MaxValue;
+                mapRightEdgeX = float.MinValue;
+                checkForMapEdges(mapR2);
                 break;
             case "mapR3":
+                mapLeftEdgeX = float.MaxValue;
+                mapRightEdgeX = float.MinValue;
+                checkForMapEdges(mapR3);
                 break;
             case "mapL1":
                 break;
@@ -74,6 +113,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "mapL3":
                 break;
+
         }
     }
 
@@ -94,7 +134,7 @@ public class GameManager : MonoBehaviour
                 {
                     if ((Player.isOutOfRightCameraEdge(LeftPlayer)) && (RightPlayer.GetComponent<Player>().canRespawn))
                     {
-                        RightPlayer.GetComponent<Player>().Die(RightPlayerRespawnPos);
+                        RightPlayer.GetComponent<Player>().ImmediateRespawn(RightPlayerRespawnPos);
                     }
 
                 }
@@ -121,9 +161,9 @@ public class GameManager : MonoBehaviour
                 }
                 if (RightPlayer != null)
                 {
-                    if (Player.isOutOfLeftCameraEdge(RightPlayer))
+                    if (Player.isOutOfLeftCameraEdge(RightPlayer) && RightPlayer.GetComponent<Player>().canRespawn)
                     {
-                        LeftPlayer.GetComponent<Player>().Die(LeftPlayerRespawnPos);
+                        LeftPlayer.GetComponent<Player>().ImmediateRespawn(LeftPlayerRespawnPos);
                     }
                 }
 
@@ -145,31 +185,119 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void changeScene(string mapNum)
+    public void changeScene(string mapNum, string enterSide)
     {
         switch (mapNum)
         {
             case "map0":
+
+                currentMap = "map0";
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(27, 2, 0);
+                    RightPlayer.transform.position = new Vector3(50, 6, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(-55, 6, 0);
+                    RightPlayer.transform.position = new Vector3(-26, 2, 0);
+                }
+
+                CameraManager.SwitchCamera(cam0);
+
                 break;
 
             case "mapR1":
+
                 currentMap = "mapR1";
                 RightPlayer.GetComponent<Player>().canRespawn = false;
-                //Need to have different spawn positions for different maps
-                LeftPlayer.transform.position = new Vector3(76, 7, 0);
-                RightPlayer.transform.position = new Vector3(105, 5, 0);
+
+                if (enterSide == "enterFromRight")
+                {
+                    print("entered r1 from r2");
+                    LeftPlayer.transform.position = new Vector3(99, 3, 0);
+                    RightPlayer.transform.position = new Vector3(123, 6, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(70, 7, 0);
+                    RightPlayer.transform.position = new Vector3(99, 5, 0);
+                }
+
                 CameraManager.SwitchCamera(camR1);
 
                 break;
+
             case "mapR2":
+
+                currentMap = "mapR2";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(140, 7, 0);
+                    RightPlayer.transform.position = new Vector3(170, 5, 0);
+                }
+                CameraManager.SwitchCamera(camR2);
+
                 break;
+
             case "mapR3":
+
+                currentMap = "mapR3";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+                RightPlayer.transform.position = new Vector3(0, -270, 0);
+                LeftPlayer.transform.position = new Vector3(219, 7, 0);
+                //remove player right at this point
+                CameraManager.SwitchCamera(camR3);
+
                 break;
+
             case "mapL1":
+
+                currentMap = "mapL1";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(-133.8f, 3.1f, 0);
+                    RightPlayer.transform.position = new Vector3(-100.6f, 4.4f, 0);
+                }
+
+                if (enterSide == "enterFromLeft")
+                {
+                    LeftPlayer.transform.position = new Vector3(-131, 7, 0);
+                    RightPlayer.transform.position = new Vector3(-104, 4, 0);
+                }
+
+                CameraManager.SwitchCamera(camL1);
+
                 break;
+
             case "mapL2":
+
+                currentMap = "mapL2";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+
+                if (enterSide == "enterFromRight")
+                {
+                    LeftPlayer.transform.position = new Vector3(-170, 7f, 0);
+                    RightPlayer.transform.position = new Vector3(-153, 7f, 0);
+                }
+                CameraManager.SwitchCamera(camL2);
+
                 break;
+
             case "mapL3":
+
+                currentMap = "mapL3";
+                RightPlayer.GetComponent<Player>().canRespawn = false;
+                RightPlayer.transform.position = new Vector3(-243f, 5f, 0);
+                CameraManager.SwitchCamera(camL3);
+
                 break;
         }
     }
@@ -184,6 +312,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            LeftPlayer.GetComponent<Player>().canRespawn = true;
             LeftPlayerRespawnPos.x = RightPlayer.transform.position.x + 20;
         }
 
@@ -194,6 +323,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            RightPlayer.GetComponent<Player>().canRespawn = true;
             RightPlayerRespawnPos.x = LeftPlayer.transform.position.x - 20;
         }
     }
@@ -214,7 +344,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    public static void PlaySound(AudioSource soundEffect)
+    {
+        if (soundEffect != null && !soundEffect.isPlaying)
+        {
+            soundEffect.Play();
+        }
+    }
 
     /* if need a respawn system that need to destroy the prefab?
     public void DestroyPlayer(GameObject player)
